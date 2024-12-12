@@ -1,0 +1,18 @@
+[02-Mar-2024 01:14:04 Africa/Cairo] PHP Fatal error:  Declaration of Maatwebsite\Excel\Cache\MemoryCache::get(string $key, mixed $default = null): mixed must be compatible with Psr\SimpleCache\CacheInterface::get($key, $default = null) in /home/u280714611/domains/ahi-egypt.com/blog/vendor/maatwebsite/excel/src/Cache/MemoryCache.php on line 63
+[02-Mar-2024 01:14:57 Africa/Cairo] PHP Fatal error:  Declaration of Maatwebsite\Excel\Cache\MemoryCache::get(string $key, mixed $default = null): mixed must be compatible with Psr\SimpleCache\CacheInterface::get($key, $default = null) in /home/u280714611/domains/ahi-egypt.com/blog/vendor/maatwebsite/excel/src/Cache/MemoryCache.php on line 63
+[02-Mar-2024 01:17:57 Africa/Cairo] PHP Fatal error:  Declaration of Maatwebsite\Excel\Cache\MemoryCache::get(string $key, mixed $default = null): mixed must be compatible with Psr\SimpleCache\CacheInterface::get($key, $default = null) in /home/u280714611/domains/ahi-egypt.com/blog/vendor/maatwebsite/excel/src/Cache/MemoryCache.php on line 63
+[01-Mar-2024 23:24:29 UTC] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 8.0.30. in /home/u280714611/domains/ahi-egypt.com/blog/vendor/composer/platform_check.php on line 24
+[01-Mar-2024 23:33:01 UTC] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 8.0.30. in /home/u280714611/domains/ahi-egypt.com/blog/vendor/composer/platform_check.php on line 24
+[01-Mar-2024 23:33:38 UTC] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 8.0.30. in /home/u280714611/domains/ahi-egypt.com/blog/vendor/composer/platform_check.php on line 24
+[01-Mar-2024 23:33:59 UTC] PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 8.0.30. in /home/u280714611/domains/ahi-egypt.com/blog/vendor/composer/platform_check.php on line 24
+[02-Mar-2024 10:16:23 UTC] PHP Fatal error:  Uncaught Symfony\Component\Console\Exception\RuntimeException: Unable to write output. in phar:///usr/local/bin/composer1.phar/vendor/symfony/console/Output/StreamOutput.php:79
+Stack trace:
+#0 phar:///usr/local/bin/composer1.phar/vendor/symfony/console/Output/Output.php(164): Symfony\Component\Console\Output\StreamOutput->doWrite()
+#1 phar:///usr/local/bin/composer1.phar/vendor/symfony/console/Output/Output.php(132): Symfony\Component\Console\Output\Output->write()
+#2 phar:///usr/local/bin/composer1.phar/vendor/symfony/console/Application.php(641): Symfony\Component\Console\Output\Output->writeln()
+#3 phar:///usr/local/bin/composer1.phar/vendor/symfony/console/Application.php(127): Symfony\Component\Console\Application->renderException()
+#4 phar:///usr/local/bin/composer1.phar/src/Composer/Console/Application.php(113): Symfony\Component\Console\Application->run()
+#5 phar:///usr/local/bin/composer1.phar/bin/composer(64): Composer\Console\Application->run()
+#6 /usr/local/bin/composer1.phar(24): require('phar:///usr/loc...')
+#7 {main}
+  thrown in phar:///usr/local/bin/composer1.phar/vendor/symfony/console/Output/StreamOutput.php on line 79
