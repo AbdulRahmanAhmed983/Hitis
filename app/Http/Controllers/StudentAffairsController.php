@@ -1835,12 +1835,13 @@ class StudentAffairsController extends Controller
             $payments_administrative_expenses[4] + $payments_administrative_expenses[5];
             $next_year = $this->getNextYear();
             $getExtraFees = $this->getExtrFees();
+            $getDetailsFees = $this->getDetailsFees();
             $payments_extra_fees   = $this->getStudentExtraFees($username);
             $ticket_id = date('ymdHis') . $username;;
             $year = $this->getCurrentYear();
              return view('student_affairs.wallet_administrative-expenses', compact('student', 'year', 'amount','departments','next_year',
              'ticket_id','payments_administrative_expenses','wallet_administrative_expenses',
-                'getExtraFees','payments_extra_fees'));
+                'getExtraFees','payments_extra_fees','getDetailsFees'));
         }
         return view('student_affairs.wallet_administrative-expenses');
     }
@@ -1859,6 +1860,11 @@ class StudentAffairsController extends Controller
         $departments = DB::table('departments')->pluck('name')->toArray();
         $username = $validator->validated()['student_code'];
         $student = $this->getStudentInfo($username);
+        $getDetailsFees = $this->getDetailsFees();
+        $name_fees = array_map(function ($getDetailsFees){
+                    return $getDetailsFees->name_fees;
+        },$getDetailsFees);
+       // dd($name_fees , );
         $year = $this->getCurrentYear();
         $rules = [
             'name' => 'required|in:' . $student['name'],
@@ -1881,7 +1887,7 @@ class StudentAffairsController extends Controller
             . '|ends_with:' . $student['username'],
             'date' => 'required|date|before_or_equal:now',
             'amount' => 'required|numeric|between:0,15000',
-            'type' => 'required|string|in:الخدمات التعليمية,رسوم تأخير التسجيل'
+            'type' => 'required|string|in:' . implode(',', $name_fees)
         ];
         $student = $data = $request->validate($rules);
         unset($data['name'], $data['study_group'], $data['specialization'], $data['departments_id']);

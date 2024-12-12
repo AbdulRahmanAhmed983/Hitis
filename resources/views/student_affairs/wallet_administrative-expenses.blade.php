@@ -559,8 +559,9 @@
                                             <label for="type">نوع الخدمة</label>
                                             <select class="form-control" name="type" id="type_fees" required>
                                                 <option hidden> اختر نوع الرسوم</option>
-                                                <option value="الخدمات التعليمية">الخدمات التعليمية</option>
-                                                <option value="رسوم تأخير التسجيل">رسوم تأخير التسجيل</option>
+                                                @foreach ($getDetailsFees as $getDetailsFee)
+                                                    <option value="{{ $getDetailsFee->name_fees }}">{{ $getDetailsFee->name_fees }}</option>
+                                                @endforeach
                                             </select>
                                             @error('type')
                                             <div class="alert alert-danger mt-3 text-center">
