@@ -581,7 +581,7 @@ trait FinanceTrait
         $activeFees = DB::table('extra_fees')->get('active')->toArray();
         return $activeFees;
     }
-    public function getDetailsFees(){
+    public function getDetailsFeesActive(){
         return DB::table('extra_fees')->where('active',1)->get()->toArray();
     }
       public function getStudentExtraFees($username)
@@ -591,24 +591,26 @@ trait FinanceTrait
     }
       public function checkPayFees($username)
     {
+        $getDetailsFeesActive = $this->getDetailsFeesActive();
+        $name_fees = array_map(function ($getDetailsFeesActive){
+                    return $getDetailsFeesActive->name_fees;
+        },$getDetailsFeesActive);
         $year =$this->getCurrentYear();
-        return DB::table('payments_extra_fees')->where('student_code', $username)->where('year',$year)
+        return DB::table('payments_extra_fees')->where('student_code', $username)->whereIn('type',$name_fees)->where('year',$year)
         ->where('used',1)->exists();
     }
     public function getُExtaFeesPayments($start_date, $end_date = null): \Illuminate\Support\Collection
     {
         if ($end_date) {
-
-            $tickets_administrative = DB::table('payments_extra_fees')->where('used', 1)->whereNotIn('confirmed_by',['Wallet_admin'])
+            $tickets_fees = DB::table('payments_extra_fees')->where('used', 1)->whereNotIn('confirmed_by',['Wallet_admin'])
                 ->whereBetween('confirmed_at', [$start_date, $end_date])
                 ->orderBy('confirmed_at')->get();
         } else {
-
-            $tickets_administrative = DB::table('payments_extra_fees')->where('used', 1)->whereNotIn('confirmed_by',['Wallet_admin'])
+            $tickets_fees = DB::table('payments_extra_fees')->where('used', 1)->whereNotIn('confirmed_by',['Wallet_admin'])
                 ->where('confirmed_at', '>=', $start_date)
                 ->orderBy('confirmed_at')->get();
         }
-        return $tickets_administrative;
+        return $tickets_fees;
     }
     public function getExtraFeesInfo($getُExtaFeesPayments):array{
         $collection = collect($getُExtaFeesPayments);

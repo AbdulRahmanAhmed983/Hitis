@@ -26,19 +26,25 @@ class StudentChecks
     {
         $year = $this->getCurrentYear();
         $semester = $this->getCurrentSemester();
-        $check_payment_isTrue= DB::table('registration_semester')->where(['student_code' => auth()->id(), 'year' => $year, 'semester' => $semester])->pluck('payment')->first();
+        $check_payment_isTrue= DB::table('registration_semester')->where(['student_code' => auth()->id(), 'year' => $year,
+        'semester' => $semester])->pluck('payment')->first();
         $student_info = $this->getStudentInfo(auth()->id());
         $studentWallet = $this->getStudentWallet(auth()->id());
         $checks_active  = $this->checkActiveFees();
-        $get_details_fees  = $this->getDetailsFees();
+        $getDetailsFeesActive = $this->getDetailsFeesActive();
+        $name_fees = array_map(function ($getDetailsFeesActive){
+                    return $getDetailsFeesActive->name_fees . " ". $getDetailsFeesActive->amount;
+        },$getDetailsFeesActive);
+    //    dd($name_fees);
         $check_payFees  = $this->checkPayFees(auth()->id());
-        foreach ($get_details_fees as $get_details_fee){
+        // dd($check_payFees);
+        foreach ($getDetailsFeesActive as $get_details_fee){
             $check_active_fees = $get_details_fee->active;
             $get_name_fees = $get_details_fee->name_fees;
                 if($check_active_fees){
                     if(!$check_payFees){
                         return redirect()->route('dashboard')->withErrors([
-                            'alert' => 'برجاء استكمال ال'.$get_name_fees
+                            'alert' => 'برجاء استكمال '.implode(' و', $name_fees)
                              ]);
                         }
                     }

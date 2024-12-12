@@ -548,7 +548,6 @@ class ReportsController extends Controller
         $students = Student::where($data)->select(['name', 'username', 'specialization','departments_id', 'study_group',
             'studying_status', 'student_classification'])
             ->orderBy('name')->orderBy('username')->get()->toArray();
-            // dd($students);
         $headers = [
             [
                 [
@@ -686,7 +685,7 @@ class ReportsController extends Controller
             $value2 = floatval($export_data[$i][9]);
             $value3 = floatval($export_data[$i][10]);
             $export_data[$i][] = $value1 - $value2 - $value3;
-        //    $export_data[$i][] = $export_data[$i][8] - $export_data[$i][9] - $export_data[$i][10];
+           // $export_data[$i][] = $export_data[$i][8] - $export_data[$i][9] - $export_data[$i][10];
             $export_data[$i][] = $this->getTotalOtherPay($students[$i]['username'], $year);
             $export_data[$i][] = $this->getTotalOtherPaid($students[$i]['username'], $year);
             $export_data[$i][] = $this->getTotalOtherDiscount($students[$i]['username'], $year);
@@ -734,10 +733,9 @@ class ReportsController extends Controller
         $department = DB::table('departments')->where('id', '=', $data['departments_id'])->pluck('id')[0];
         $department_name = DB::table('departments')->where('id', '=', $data['departments_id'])->pluck('name')[0];
         $type = $data['specialization'] == 'ترميم الاثار و المقتنيات الفنية' ? 'R' : 'T';
-        $courses = DB::table('courses')->whereIn('semester', $sem)->where('type', $type)
-        ->where('departments_id',$department)
+        $courses = DB::table('courses')->whereIn('semester', $sem)->where('type', $type)->where('departments_id',$department)
             ->where('is_selected', 1)->get()->toArray();
-        $registrations = DB::table('registration')->select(['student_code', 'course_code', 'students.name','students.studying_status',
+        $registrations = DB::table('registration')->select(['student_code', 'course_code', 'students.name', 'students.studying_status',
             'students.study_group'])->where('semester', $semester)->where('year', $year)
             ->whereIn('course_code', array_column($courses, 'full_code'))
             ->join('students', 'registration.student_code', '=', 'students.username')
@@ -929,13 +927,13 @@ class ReportsController extends Controller
             ->join('registration_semester', 'students.username', '=', 'registration_semester.student_code')
             ->where(['payment' => 1, 'registration_semester.year' => $year,
                 'registration_semester.semester' => $semester])
+
             ->join('payment_tickets', function ($join) {
                 $join->on('payment_tickets.student_code', '=', 'students.username')
                     ->on('payment_tickets.year', 'registration_semester.year')
                     ->on('payment_tickets.semester', 'registration_semester.semester')
                     ->where('type', 'محفظة');
             })->orderBy('confirmed_at')->get()->toArray();
-
             switch ($data['study_group']) {
                 case 'الاولي':
                     $sem = [1, 2];
@@ -1225,6 +1223,21 @@ class ReportsController extends Controller
                     'row' => 1,
                     'text' => 'الحالة الدراسية'
                 ],
+                [
+                    'col' => 1,
+                    'row' => 1,
+                    'text' => 'التصنيف'
+                ],
+                 [
+                    'col' => 1,
+                    'row' => 1,
+                    'text' => 'رقم الموبايل'
+                ],
+                [
+                    'col' => 1,
+                    'row' => 1,
+                    'text' => 'العنوان'
+                ],
             ],
         ];
         $export_data = [];
@@ -1234,6 +1247,9 @@ class ReportsController extends Controller
             $export_data[$i][] = $student['username'];
             $export_data[$i][] = $student['name'];
             $export_data[$i][] = $student['studying_status'];
+            $export_data[$i][] = $student['student_classification'];
+            $export_data[$i][] = $student['mobile'];
+            $export_data[$i][] = $student['address'];
             $i++;
         }
         try {

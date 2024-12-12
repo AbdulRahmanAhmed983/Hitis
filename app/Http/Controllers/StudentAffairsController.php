@@ -1835,13 +1835,13 @@ class StudentAffairsController extends Controller
             $payments_administrative_expenses[4] + $payments_administrative_expenses[5];
             $next_year = $this->getNextYear();
             $getExtraFees = $this->getExtrFees();
-            $getDetailsFees = $this->getDetailsFees();
+            $getDetailsFeesActive = $this->getDetailsFeesActive();
             $payments_extra_fees   = $this->getStudentExtraFees($username);
             $ticket_id = date('ymdHis') . $username;;
             $year = $this->getCurrentYear();
              return view('student_affairs.wallet_administrative-expenses', compact('student', 'year', 'amount','departments','next_year',
              'ticket_id','payments_administrative_expenses','wallet_administrative_expenses',
-                'getExtraFees','payments_extra_fees','getDetailsFees'));
+                'getExtraFees','payments_extra_fees','getDetailsFeesActive'));
         }
         return view('student_affairs.wallet_administrative-expenses');
     }
@@ -1860,11 +1860,10 @@ class StudentAffairsController extends Controller
         $departments = DB::table('departments')->pluck('name')->toArray();
         $username = $validator->validated()['student_code'];
         $student = $this->getStudentInfo($username);
-        $getDetailsFees = $this->getDetailsFees();
-        $name_fees = array_map(function ($getDetailsFees){
-                    return $getDetailsFees->name_fees;
-        },$getDetailsFees);
-       // dd($name_fees , );
+        $getDetailsFeesActive = $this->getDetailsFeesActive();
+        $name_fees = array_map(function ($getDetailsFeesActive){
+                    return $getDetailsFeesActive->name_fees;
+        },$getDetailsFeesActive);
         $year = $this->getCurrentYear();
         $rules = [
             'name' => 'required|in:' . $student['name'],
