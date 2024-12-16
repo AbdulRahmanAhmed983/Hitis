@@ -30,25 +30,27 @@ class StudentChecks
         'semester' => $semester])->pluck('payment')->first();
         $student_info = $this->getStudentInfo(auth()->id());
         $studentWallet = $this->getStudentWallet(auth()->id());
-        $checks_active  = $this->checkActiveFees();
         $getDetailsFeesActive = $this->getDetailsFeesActive();
         $name_fees = array_map(function ($getDetailsFeesActive){
                     return $getDetailsFeesActive->name_fees . " ". $getDetailsFeesActive->amount;
         },$getDetailsFeesActive);
-    //    dd($name_fees);
         $check_payFees  = $this->checkPayFees(auth()->id());
-        // dd($check_payFees);
+        dd($this->getFeesNotPid(auth()->id()));
+
         foreach ($getDetailsFeesActive as $get_details_fee){
             $check_active_fees = $get_details_fee->active;
             $get_name_fees = $get_details_fee->name_fees;
                 if($check_active_fees){
-                    if(!$check_payFees){
-                        return redirect()->route('dashboard')->withErrors([
-                            'alert' => 'برجاء استكمال '.implode(' و', $name_fees)
-                             ]);
+                    if($check_payment_isTrue  == 0 or !isset($check_payment_isTrue)){
+                        if(!$check_payFees){
+                            return redirect()->route('dashboard')->withErrors([
+                                'alert' => 'برجاء استكمال '.implode(' و', $name_fees)
+                                ]);
                         }
                     }
-            }
+                }
+        }
+
         if ($studentWallet) {
             $wallet = $studentWallet->amount;
          }else{

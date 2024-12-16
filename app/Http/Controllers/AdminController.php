@@ -2141,6 +2141,8 @@ class AdminController extends Controller
             $year = $this->getCurrentYear();
             $semester = $this->getCurrentSemester();
             $studentWallet = $this->getStudentWallet($student_code);
+            dd($this->checkPayFees($student_code));
+
             if ($studentWallet) {
                 $wallet = $studentWallet->amount;
             }else{
@@ -2317,8 +2319,8 @@ class AdminController extends Controller
                 $payment_data['payment'] = ($payment_data['hours'] * $payment_data['hour_payment']) +
                     $payment_data['ministerial_payment'];
                     $payment_data['paid_payments'] = $payment_data['payment'];
-                if ( empty($checkAdministrative) || !isset($checkAdministrative[0]) || $checkAdministrative[0] == 0)
-                {
+                    if ( empty($checkAdministrative) || !isset($checkAdministrative[0]) || $checkAdministrative[0] == 0)
+                    {
                         return redirect()->back()->with('error', ' استكمال المصاريف الادارية لاتمام التسجيل')->withInput();
                     }
                     if(!DB::table('students_payments_exception')->where(compact('student_code'))->exists()){

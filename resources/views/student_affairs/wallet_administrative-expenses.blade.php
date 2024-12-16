@@ -57,7 +57,7 @@
                             <div>الكود {{$student['username']}}</div>
                         </div>
                         <div>
-                            @if(!is_null($wallet_administrative_expenses ))
+                            @if(!is_null($wallet_administrative_expenses) || !is_null($payments_extra_fees))
                                     <table class="table table-bordered text-center">
                                         <tr>
                                             <th>السنة</th>
@@ -75,17 +75,16 @@
                                                 <td>مصاريف ادارية</td>
                                                <td> @if($wallet_administrative_expenses->used === 0) غير مدفوع @else  مدفوع @endif </td>
                                             </tr>
-                                            @if(!is_null($payments_extra_fees))
+                                            @foreach ($payments_extra_fees as $payments_extra_fee)
                                                 <tr>
-                                                    <td>{{$payments_extra_fees->year}}</td>
-                                                    <td>{{$payments_extra_fees->date}}</td>
-                                                    <td>{{$payments_extra_fees->amount}}</td>
-                                                    <td>{{$payments_extra_fees->ticket_id}}</td>
-                                                    <td> رسوم تأخير/ خدمات تعليمية</td>
-                                                <td> @if($payments_extra_fees->used === 0) غير مدفوع @else  مدفوع @endif </td>
+                                                    <td>{{$payments_extra_fee->year}}</td>
+                                                    <td>{{$payments_extra_fee->date}}</td>
+                                                    <td>{{$payments_extra_fee->amount}}</td>
+                                                    <td>{{$payments_extra_fee->ticket_id}}</td>
+                                                    <td>{{ $payments_extra_fee->type }}</td>
+                                                <td> @if($payments_extra_fee->used === 0) غير مدفوع @else  مدفوع @endif </td>
                                                 </tr>
-                                            @endif
-
+                                                @endforeach
                                     </table>
                             @else
                                 <div class="alert alert-warning text-center">
@@ -638,15 +637,15 @@
         });
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
     $(document).ready(function() {
         $('#type_fees').change(function() {
             var selectedType = $(this).val();
-            alert(selectedType);
             $.ajax({
-                url: '/get-amount',
+                url: '{{ route('getAmountExtraFees') }}',
                 method: 'GET',
-                data: { type_fees: selectedType },
+                data: { type: selectedType },
                 success: function(response) {
                     $('#amount_fees').val(response.amount);
                 },

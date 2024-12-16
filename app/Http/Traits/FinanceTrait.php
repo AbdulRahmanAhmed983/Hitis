@@ -577,9 +577,8 @@ trait FinanceTrait
      public function getExtrFees(){
         return DB::table('extra_fees')->get()->toArray();
     }
-    public function checkActiveFees(){
-        $activeFees = DB::table('extra_fees')->get('active')->toArray();
-        return $activeFees;
+    public function checkActiveFees(array $type){
+        return DB::table('extra_fees')->where('name_fees',$type)->where('active',1)->exists();
     }
     public function getDetailsFeesActive(){
         return DB::table('extra_fees')->where('active',1)->get()->toArray();
@@ -587,17 +586,28 @@ trait FinanceTrait
       public function getStudentExtraFees($username)
     {
         $year =$this->getCurrentYear();
-        return DB::table('payments_extra_fees')->where('year',$year)->where('student_code', $username)->first();
+        return DB::table('payments_extra_fees')->where('year',$year)->where('student_code', $username)->get()->toArray();
+    }
+    public function getNameFees(){
+        $getDetailsFeesActive = $this->getDetailsFeesActive();
+        $name_fees = array_map(function ($fee){
+            return $fee->name_fees;
+        },$getDetailsFeesActive);
+        return $name_fees;
     }
       public function checkPayFees($username)
-    {
-        $getDetailsFeesActive = $this->getDetailsFeesActive();
-        $name_fees = array_map(function ($getDetailsFeesActive){
-                    return $getDetailsFeesActive->name_fees;
-        },$getDetailsFeesActive);
+        {
+        $name_fees =  $this->getNameFees();
         $year =$this->getCurrentYear();
-        return DB::table('payments_extra_fees')->where('student_code', $username)->whereIn('type',$name_fees)->where('year',$year)
-        ->where('used',1)->exists();
+        $paid_fees =  DB::table('payments_extra_fees')->where('student_code', $username)->whereIn('type',$name_fees)
+        ->where('year',$year)->where('used',1)->pluck('type')->toArray();
+        return count($paid_fees) === count($name_fees);
+    }
+    public function getFeesNotPid($username){
+         $year =$this->getCurrentYear();
+        return DB::table('payments_extra_fees')->where('student_code', $username)->where('year',$year)
+        ->where('used',0)->pluck('type')->toArray();
+        //بهد ماترجع ده تتاكد انه اكتيف
     }
     public function getُExtaFeesPayments($start_date, $end_date = null): \Illuminate\Support\Collection
     {
