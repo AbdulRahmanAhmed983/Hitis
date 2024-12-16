@@ -481,7 +481,7 @@ class AdminController extends Controller
     public function updateCourses(Request $request)
     {
         $rules = [
-            'type' => 'required|in:E,R',
+            'type' => 'required',
             'semester' => 'required|integer|between:1,8',
             'elective' => 'required|integer|between:0,1',
             'departments_id' => 'required|integer',
@@ -532,7 +532,7 @@ class AdminController extends Controller
             'course_code' => 'required|array|size:' . $count,
             'course_code.*' => 'required|string|max:7|not_regex:/[#;<>]/u',
             'course_type' => 'required|array|size:' . $count,
-            'course_type.*' => 'required|in:R,E',
+            'course_type.*' => 'required|in:R,T',
             'course_name' => 'required|array|size:' . $count,
             'course_name.*' => 'required|string|max:100|not_regex:/[#;<>]/u',
             'course_semester' => 'required|array|size:' . $count,
@@ -543,15 +543,17 @@ class AdminController extends Controller
             'course_elective.*' => 'required|integer|between:0,1',
             'departments_id' => ['required', 'array',
             function ($attribute, $value, $fail) use ($request) {
-                $departments_Ar = ['ترميم الأثار والمقتنيات الفنية غيرالعضوية',' الأثار والمقتنيات الفنية العضوية'];
-                $departments_En = ['Marketing and E-Commerce','Accounting and Review','Business information systems'];
-                if ($request->course_type[0] == 'T' && in_array($value, $departments_Ar)){
+                $departments_HI = ['ترميم الأثار والمقتنيات الفنية غيرالعضوية',' الأثار والمقتنيات الفنية العضوية'];
+                $departments_Tour = ['ادارة خدمة العملاء','ادارة الاحداث الرياضية','ادارة فنون الطهي','ادارة الاحداث الخاصة',
+                'ادارة خدمات الضيافة الجوية و البحرية','ادارة شركات الملاحة','ادارة المطاعم','ادارة شركات الطيران',
+                'ادارة الفنادق','ادارة الضيافة','ادارة الاعمال السياحية','ارشاد سياحي','الدراسات السياحية و ادارة الضيافة',
+                'سياحة عام'];
+                if ($request->course_type[0] == 'T' && in_array($value, $departments_HI)){
                     $fail('يوجد خطأ في اختيار التخصص او الشعبة ');
                 }
-                elseif ($request->course_type[0] == 'R' && in_array($value, $departments_En)){
+                elseif ($request->course_type[0] == 'R' && in_array($value, $departments_Tour)){
                     $fail('يوجد خطأ في اختيار التخصص او الشعبة ');
                 }
-
             }],
         ];
         $data = $request->validate($rules);
@@ -560,9 +562,6 @@ class AdminController extends Controller
             DB::transaction(function () use (&$not_added, $data, $count) {
                 for ($i = 0; $i < $count; $i++) {
                     $full_code = $data['course_type'][$i] . $data['course_code'][$i];
-                    // if (DB::table('courses')->where(compact('full_code'))->exists()) {
-                    //     $not_added[] = "كود المادة $full_code مكرر";
-                    // } else {
                         $insert_data = [
                             'type' => $data['course_type'][$i],
                             'code' => $data['course_code'][$i],
@@ -573,7 +572,6 @@ class AdminController extends Controller
                             'departments_id' => $data['departments_id'][$i],
                         ];
                         DB::table('courses')->insert($insert_data);
-                    //}
                 }
             });
             return redirect()->back()->with('success', 'تم تغير البيانات')->withErrors($not_added);

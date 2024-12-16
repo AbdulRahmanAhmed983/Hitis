@@ -1324,7 +1324,7 @@
                                         <label for="type">الشعبة</label>
                                      <select class="custom-select course" required name="departments_id" id="departments_id">
                                             <option value="" hidden></option>
-                                            <option value="1" @if (old('departments_id') == "عام")
+                                            <option value="1" @if (old('departments_id') == "1")
                                                 {{ 'selected' }}
                                                 @endif>عام
                                             </option>
@@ -1335,6 +1335,62 @@
                                             <option value="3" @if (old('departments_id') == "3")
                                                 {{ 'selected' }}
                                                 @endif>ترميم الأثار والمقتنيات الفنية غيرالعضوية
+                                            </option>
+                                            <option value="4" @if (old('departments_id') == "4")
+                                                {{ 'selected' }}
+                                                @endif>سياحة عام
+                                            </option>
+                                            <option value="5" @if (old('departments_id') == "5")
+                                                {{ 'selected' }}
+                                                @endif>الدراسات السياحية و ادارة الضيافة
+                                            </option>
+                                            <option value="7" @if (old('departments_id') == "6")
+                                                {{ 'selected' }}
+                                                @endif>ارشاد سياحي
+                                            </option>
+                                            <option value="3" @if (old('departments_id') == "7")
+                                                {{ 'selected' }}
+                                                @endif>ادارة الاعمال السياحية
+                                            </option>
+                                            <option value="8" @if (old('departments_id') == "8")
+                                                {{ 'selected' }}
+                                                @endif>ادارة الضيافة
+                                            </option>
+                                            <option value="9" @if (old('departments_id') == "9")
+                                                {{ 'selected' }}
+                                                @endif>ادارة الفنادق
+                                            </option>
+                                            <option value="10" @if (old('departments_id') == "10")
+                                                {{ 'selected' }}
+                                                @endif>ادارة شركات الطيران
+                                            </option>
+                                            <option value="11" @if (old('departments_id') == "11")
+                                                {{ 'selected' }}
+                                                @endif>ادارة المطاعم
+                                            </option>
+                                            <option value="12" @if (old('departments_id') == "12")
+                                                {{ 'selected' }}
+                                                @endif>ادارة شركات الملاحة
+                                            </option>
+                                            <option value="13" @if (old('departments_id') == "13")
+                                                {{ 'selected' }}
+                                                @endif>ادارة خدمات الضيافة الجوية و البحرية
+                                            </option>
+                                            <option value="14" @if (old('departments_id') == "14")
+                                                {{ 'selected' }}
+                                                @endif>ادارة الاحداث الخاصة
+                                            </option>
+                                            <option value="15" @if (old('departments_id') == "15")
+                                                {{ 'selected' }}
+                                                @endif>ادارة فنون الطهي
+                                            </option>
+                                            <option value="16" @if (old('departments_id') == "16")
+                                                {{ 'selected' }}
+                                                @endif>ادارة الاحداث الرياضية
+                                            </option>
+                                            <option value="17" @if (old('departments_id') == "17")
+                                                {{ 'selected' }}
+                                                @endif>ادارة خدمة العملاء
                                             </option>
 
                                         </select>
@@ -2369,7 +2425,20 @@
                 '<option value="1">عام</option>' +
                 '<option value="2">ترميم الأثار والمقتنيات الفنية العضوية</option>' +
                 '<option value="3">ترميم الأثار والمقتنيات الفنية غيرالعضوية</option>' +
-                '<option value="4">التسويق والتجارة الالكترونية</option>' +
+                '<option value="4">سياحة عام</option>' +
+                '<option value="5">الدراسات السياحية و ادارة الضيافة</option>' +
+                '<option value="6">ارشاد سياحي</option>' +
+                '<option value="7">ادارة الاعمال السياحية</option>' +
+                '<option value="8">ادارة الضيافة</option>' +
+                '<option value="9">ادارة الفنادق</option>' +
+                '<option value="10">ادارة شركات الطيران</option>' +
+                '<option value="11">ادارة المطاعم</option>' +
+                '<option value="12">ادارة شركات الملاحة</option>' +
+                '<option value="13">ادارة خدمات الضيافة الجوية و البحرية</option>' +
+                '<option value="14">ادارة الاحداث الخاصة</option>' +
+                '<option value="15">ادارة فنون الطهي</option>' +
+                '<option value="16">ادارة الاحداث الرياضية</option>' +
+                '<option value="17">ادارة خدمة العملاء</option>' +
                 '</select></td>' +
                 '</tr>');
         }
