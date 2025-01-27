@@ -47,6 +47,14 @@ class StudentController extends Controller
             return redirect()->back()->with(['error' => 'تم التسجيل فى هذا الترم من قبل']);
         }
         $student_info = $this->getStudentInfo(auth()->id());
+        $warning_value = DB::table('students_current_warning')
+        ->where('student_code', $student_info['username'])
+        ->value('warning');
+         $half_load= $this->getData(['load_hours'])['load_hours'][0];
+         $high_load= $this->getData(['load_hours'])['load_hours'][1];
+         $cgpa_high_load= $this->getData(['load_hours'])['load_hours'][2];
+
+
         $courses = $this->getStudentCourses($student_info);
         $courses_code = [];
         $elective_counter = $this->getElectiveCourseCount();
@@ -75,15 +83,16 @@ class StudentController extends Controller
                 $courses_code[$course->full_code] = $course->hours;
             }
         }
-        $registration_hour = $this->getStudentsRegistrationHour($student_info['specialization'],
-            $student_info['study_group']);
+        $registration_hour =
+            ($student['cgpa'] >= $cgpa_high_load || $student['study_group']=='الرابعة' ) ? $high_load  :
+                $this->getStudentsRegistrationHour($student['specialization'], $student['study_group']);
 
         $rules = [
             'semester' => 'required|string|in:' . $semester,
             'year' => 'required|string|in:' . $year,
             'courses' => ['required', 'array',
                 function ($attribute, $value, $fail) use (
-                    $student_info, $courses, $semester, $registration_hour,
+                    $student_info, $courses, $semester, $registration_hour,$warning_value,
                     $courses_code
                 ) {
                     $hour = 0;
@@ -148,6 +157,9 @@ class StudentController extends Controller
                         if ($hour > $registration_hour) {
                             return $fail('يجب أن تسجل عدد اساعات اقل من او يساوى ' . $registration_hour);
                         }
+                        if ($warningValue>=1 && $hour >  $half_load){
+                            return redirect()->back()->with('error', 'لا يمكن التسجيل لقد تم تجاوز ' .  $half_load . ' الساعة');
+                            }
                     }
                     if ($semester != 'ترم صيفي') {
                         if ($hour != $registration_hour) {

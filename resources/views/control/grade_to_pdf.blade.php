@@ -234,8 +234,8 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    
-                                     
+
+
                                     <tr class="mx-0 px-0 h5">
                                         <td class="align-middle">د. جوزيف جورج
 <br><img src="{{asset('images/Joseph_sig.jpg')}}">
@@ -254,8 +254,8 @@
                                         <td class="align-middle">أ.د. شحاتة السيد شحاتة
 <br><img src="{{asset('images/shehata_sig.jpg')}}">
 </td>
-                                        
-                                   
+
+
                                     </tr>
                                     </tbody>
                                 </table>

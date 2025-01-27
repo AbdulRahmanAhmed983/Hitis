@@ -33,7 +33,7 @@ trait DataTrait
         }
         return $info;
     }
-   
+
     public function getPreviousYear($year = null): string
     {
         $year = $year ?: $this->getCurrentYear();
@@ -165,22 +165,22 @@ trait DataTrait
         $data = [];
         switch ($grade) {
             case 'ممتاز':
-                $data[] = ['cgpa', '>=', '3.7'];
+                $data[] = ['cgpa', '>=', '3.40'];
                 break;
             case 'جيد جدا':
-                $data[] = ['cgpa', '<', '3.7'];
-                $data[] = ['cgpa', '>=', '3'];
+                $data[] = ['cgpa', '<', '3.40'];
+                $data[] = ['cgpa', '>=', '3.00'];
                 break;
             case 'جيد':
-                $data[] = ['cgpa', '<', '3'];
-                $data[] = ['cgpa', '>=', '2.4'];
+                $data[] = ['cgpa', '<', '3.00'];
+                $data[] = ['cgpa', '>=', '2.40'];
                 break;
             case 'مقبول':
-                $data[] = ['cgpa', '<', '2.4'];
-                $data[] = ['cgpa', '>=', '2'];
+                $data[] = ['cgpa', '<', '2.40'];
+                $data[] = ['cgpa', '>=', '2.00'];
                 break;
             case 'ضعيف':
-                $data[] = ['cgpa', '<', '2'];
+                $data[] = ['cgpa', '<', '2.00'];
                 break;
         }
         return $data;

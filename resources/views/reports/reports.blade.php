@@ -105,24 +105,56 @@
                                                     $deptName = "عام";
                                                     break;
                                                 case 2:
-                                                    $deptName = "نظم معلومات الاعمال";
+                                                    $deptName = "ترميم الأثار والمقتنيات الفنية العضوية";
                                                     break;
                                                 case 3:
-                                                    $deptName = "المحاسبة و المراجعة";
+                                                    $deptName = "ترميم الأثار والمقتنيات الفنية غيرالعضوية";
                                                     break;
                                                 case 4:
-                                                    $deptName = "التسويق والتجارة الالكترونية";
+                                                    $deptName = "سياحة عام";
                                                     break;
                                                 case 5:
-                                                    $deptName = "Business information systems";
+                                                    $deptName = "الدراسات السياحية و ادارة الضيافة";
                                                     break;
                                                 case 6:
-                                                    $deptName = "Accounting and Review";
+                                                    $deptName = "ارشاد سياحي";
                                                     break;
                                                 case 7:
-                                                    $deptName = "Marketing and E-commerce";
+                                                    $deptName = "ادارة الاعمال السياحية";
                                                     break;
-
+                                                case 8:
+                                                    $deptName = "ادارة الضيافة";
+                                                    break;
+                                                case 9:
+                                                    $deptName = "الدراسات السياحية";
+                                                    break;
+                                                case 10:
+                                                    $deptName = "ادارة الفنادق";
+                                                    break;
+                                                case 11:
+                                                    $deptName = "ادارة شركات الطيران";
+                                                    break;
+                                                case 12:
+                                                    $deptName = "ادارة المطاعم";
+                                                    break;
+                                                case 13:
+                                                    $deptName = "ادارة شركات الملاحة";
+                                                    break;
+                                                case 14:
+                                                    $deptName = "ادارة خدمات الضيافة الجوية و البحرية";
+                                                    break;
+                                                case 15:
+                                                    $deptName = "ادارة الاحداث الخاصة";
+                                                    break;
+                                                case 16:
+                                                    $deptName = "ادارة فنون الطهي";
+                                                    break;
+                                                case 17:
+                                                    $deptName = "ادارة الاحداث الرياضية";
+                                                    break;
+                                                case 18:
+                                                    $deptName = "ادارة خدمة العملاء";
+                                                    break;
                                             }
                                         @endphp
                                         <option value="{{$value}}" @if (old('departments_id') == $value) selected @endif>{{$deptName}}</option>
@@ -177,33 +209,65 @@
                                 <select class="custom-select" required id="departments" name="departments_id">
                                     <option value="" hidden></option>
                                     @foreach($filter_data['departments_id'] as $value)
-                                        @php
-                                            $deptName = '';
-                                            switch($value) {
-                                                case 1:
-                                                    $deptName = "عام";
-                                                    break;
-                                                case 2:
-                                                    $deptName = "نظم معلومات الاعمال";
-                                                    break;
-                                                case 3:
-                                                    $deptName = "المحاسبة و المراجعة";
-                                                    break;
-                                                case 4:
-                                                    $deptName = "التسويق والتجارة الالكترونية";
-                                                    break;
-                                                case 5:
-                                                    $deptName = "Business information systems";
-                                                    break;
-                                                case 6:
-                                                    $deptName = "Accounting and Review";
-                                                    break;
-                                                case 7:
-                                                    $deptName = "Marketing and E-commerce";
-                                                    break;
-
-                                            }
-                                        @endphp
+                                    @php
+                                    $deptName = '';
+                                    switch($value) {
+                                        case 1:
+                                            $deptName = "عام";
+                                            break;
+                                        case 2:
+                                            $deptName = "ترميم الأثار والمقتنيات الفنية العضوية";
+                                            break;
+                                        case 3:
+                                            $deptName = "ترميم الأثار والمقتنيات الفنية غيرالعضوية";
+                                            break;
+                                        case 4:
+                                            $deptName = "سياحة عام";
+                                            break;
+                                        case 5:
+                                            $deptName = "الدراسات السياحية و ادارة الضيافة";
+                                            break;
+                                        case 6:
+                                            $deptName = "ارشاد سياحي";
+                                            break;
+                                        case 7:
+                                            $deptName = "ادارة الاعمال السياحية";
+                                            break;
+                                        case 8:
+                                            $deptName = "ادارة الضيافة";
+                                            break;
+                                        case 9:
+                                            $deptName = "الدراسات السياحية";
+                                            break;
+                                        case 10:
+                                            $deptName = "ادارة الفنادق";
+                                            break;
+                                        case 11:
+                                            $deptName = "ادارة شركات الطيران";
+                                            break;
+                                        case 12:
+                                            $deptName = "ادارة المطاعم";
+                                            break;
+                                        case 13:
+                                            $deptName = "ادارة شركات الملاحة";
+                                            break;
+                                        case 14:
+                                            $deptName = "ادارة خدمات الضيافة الجوية و البحرية";
+                                            break;
+                                        case 15:
+                                            $deptName = "ادارة الاحداث الخاصة";
+                                            break;
+                                        case 16:
+                                            $deptName = "ادارة فنون الطهي";
+                                            break;
+                                        case 17:
+                                            $deptName = "ادارة الاحداث الرياضية";
+                                            break;
+                                        case 18:
+                                            $deptName = "ادارة خدمة العملاء";
+                                            break;
+                                    }
+                                @endphp
                                         <option value="{{$value}}" @if (old('departments_id') == $value) selected @endif>{{$deptName}}</option>
                                     @endforeach
                                 </select>
@@ -256,33 +320,65 @@
                                 <select class="custom-select" required id="departments" name="departments_id">
                                     <option value="" hidden></option>
                                     @foreach($filter_data['departments_id'] as $value)
-                                        @php
-                                            $deptName = '';
-                                            switch($value) {
-                                                case 1:
-                                                    $deptName = "عام";
-                                                    break;
-                                                case 2:
-                                                    $deptName = "نظم معلومات الاعمال";
-                                                    break;
-                                                case 3:
-                                                    $deptName = "المحاسبة و المراجعة";
-                                                    break;
-                                                case 4:
-                                                    $deptName = "التسويق والتجارة الالكترونية";
-                                                    break;
-                                                case 5:
-                                                    $deptName = "Business information systems";
-                                                    break;
-                                                case 6:
-                                                    $deptName = "Accounting and Review";
-                                                    break;
-                                                case 7:
-                                                    $deptName = "Marketing and E-commerce";
-                                                    break;
-
-                                            }
-                                        @endphp
+                                    @php
+                                    $deptName = '';
+                                    switch($value) {
+                                        case 1:
+                                            $deptName = "عام";
+                                            break;
+                                        case 2:
+                                            $deptName = "ترميم الأثار والمقتنيات الفنية العضوية";
+                                            break;
+                                        case 3:
+                                            $deptName = "ترميم الأثار والمقتنيات الفنية غيرالعضوية";
+                                            break;
+                                        case 4:
+                                            $deptName = "سياحة عام";
+                                            break;
+                                        case 5:
+                                            $deptName = "الدراسات السياحية و ادارة الضيافة";
+                                            break;
+                                        case 6:
+                                            $deptName = "ارشاد سياحي";
+                                            break;
+                                        case 7:
+                                            $deptName = "ادارة الاعمال السياحية";
+                                            break;
+                                        case 8:
+                                            $deptName = "ادارة الضيافة";
+                                            break;
+                                        case 9:
+                                            $deptName = "الدراسات السياحية";
+                                            break;
+                                        case 10:
+                                            $deptName = "ادارة الفنادق";
+                                            break;
+                                        case 11:
+                                            $deptName = "ادارة شركات الطيران";
+                                            break;
+                                        case 12:
+                                            $deptName = "ادارة المطاعم";
+                                            break;
+                                        case 13:
+                                            $deptName = "ادارة شركات الملاحة";
+                                            break;
+                                        case 14:
+                                            $deptName = "ادارة خدمات الضيافة الجوية و البحرية";
+                                            break;
+                                        case 15:
+                                            $deptName = "ادارة الاحداث الخاصة";
+                                            break;
+                                        case 16:
+                                            $deptName = "ادارة فنون الطهي";
+                                            break;
+                                        case 17:
+                                            $deptName = "ادارة الاحداث الرياضية";
+                                            break;
+                                        case 18:
+                                            $deptName = "ادارة خدمة العملاء";
+                                            break;
+                                    }
+                                @endphp
                                         <option value="{{$value}}" @if (old('departments_id') == $value) selected @endif>{{$deptName}}</option>
                                     @endforeach
                                 </select>
@@ -336,33 +432,65 @@
                                 <select class="custom-select" required id="departments" name="departments_id">
                                     <option value="" hidden></option>
                                     @foreach($filter_data['departments_id'] as $value)
-                                        @php
-                                            $deptName = '';
-                                            switch($value) {
-                                                case 1:
-                                                    $deptName = "عام";
-                                                    break;
-                                                case 2:
-                                                    $deptName = "نظم معلومات الاعمال";
-                                                    break;
-                                                case 3:
-                                                    $deptName = "المحاسبة و المراجعة";
-                                                    break;
-                                                case 4:
-                                                    $deptName = "التسويق والتجارة الالكترونية";
-                                                    break;
-                                                case 5:
-                                                    $deptName = "Business information systems";
-                                                    break;
-                                                case 6:
-                                                    $deptName = "Accounting and Review";
-                                                    break;
-                                                case 7:
-                                                    $deptName = "Marketing and E-commerce";
-                                                    break;
-
-                                            }
-                                        @endphp
+                                    @php
+                                    $deptName = '';
+                                    switch($value) {
+                                        case 1:
+                                            $deptName = "عام";
+                                            break;
+                                        case 2:
+                                            $deptName = "ترميم الأثار والمقتنيات الفنية العضوية";
+                                            break;
+                                        case 3:
+                                            $deptName = "ترميم الأثار والمقتنيات الفنية غيرالعضوية";
+                                            break;
+                                        case 4:
+                                            $deptName = "سياحة عام";
+                                            break;
+                                        case 5:
+                                            $deptName = "الدراسات السياحية و ادارة الضيافة";
+                                            break;
+                                        case 6:
+                                            $deptName = "ارشاد سياحي";
+                                            break;
+                                        case 7:
+                                            $deptName = "ادارة الاعمال السياحية";
+                                            break;
+                                        case 8:
+                                            $deptName = "ادارة الضيافة";
+                                            break;
+                                        case 9:
+                                            $deptName = "الدراسات السياحية";
+                                            break;
+                                        case 10:
+                                            $deptName = "ادارة الفنادق";
+                                            break;
+                                        case 11:
+                                            $deptName = "ادارة شركات الطيران";
+                                            break;
+                                        case 12:
+                                            $deptName = "ادارة المطاعم";
+                                            break;
+                                        case 13:
+                                            $deptName = "ادارة شركات الملاحة";
+                                            break;
+                                        case 14:
+                                            $deptName = "ادارة خدمات الضيافة الجوية و البحرية";
+                                            break;
+                                        case 15:
+                                            $deptName = "ادارة الاحداث الخاصة";
+                                            break;
+                                        case 16:
+                                            $deptName = "ادارة فنون الطهي";
+                                            break;
+                                        case 17:
+                                            $deptName = "ادارة الاحداث الرياضية";
+                                            break;
+                                        case 18:
+                                            $deptName = "ادارة خدمة العملاء";
+                                            break;
+                                    }
+                                @endphp
                                         <option value="{{$value}}" @if (old('departments_id') == $value) selected @endif>{{$deptName}}</option>
                                     @endforeach
                                 </select>
@@ -415,33 +543,65 @@
                                 <select class="custom-select" required id="departments" name="departments_id">
                                     <option value="" hidden></option>
                                     @foreach($filter_data['departments_id'] as $value)
-                                        @php
-                                            $deptName = '';
-                                            switch($value) {
-                                                case 1:
-                                                    $deptName = "عام";
-                                                    break;
-                                                case 2:
-                                                    $deptName = "نظم معلومات الاعمال";
-                                                    break;
-                                                case 3:
-                                                    $deptName = "المحاسبة و المراجعة";
-                                                    break;
-                                                case 4:
-                                                    $deptName = "التسويق والتجارة الالكترونية";
-                                                    break;
-                                                case 5:
-                                                    $deptName = "Business information systems";
-                                                    break;
-                                                case 6:
-                                                    $deptName = "Accounting and Review";
-                                                    break;
-                                                case 7:
-                                                    $deptName = "Marketing and E-commerce";
-                                                    break;
-
-                                            }
-                                        @endphp
+                                    @php
+                                    $deptName = '';
+                                    switch($value) {
+                                        case 1:
+                                            $deptName = "عام";
+                                            break;
+                                        case 2:
+                                            $deptName = "ترميم الأثار والمقتنيات الفنية العضوية";
+                                            break;
+                                        case 3:
+                                            $deptName = "ترميم الأثار والمقتنيات الفنية غيرالعضوية";
+                                            break;
+                                        case 4:
+                                            $deptName = "سياحة عام";
+                                            break;
+                                        case 5:
+                                            $deptName = "الدراسات السياحية و ادارة الضيافة";
+                                            break;
+                                        case 6:
+                                            $deptName = "ارشاد سياحي";
+                                            break;
+                                        case 7:
+                                            $deptName = "ادارة الاعمال السياحية";
+                                            break;
+                                        case 8:
+                                            $deptName = "ادارة الضيافة";
+                                            break;
+                                        case 9:
+                                            $deptName = "الدراسات السياحية";
+                                            break;
+                                        case 10:
+                                            $deptName = "ادارة الفنادق";
+                                            break;
+                                        case 11:
+                                            $deptName = "ادارة شركات الطيران";
+                                            break;
+                                        case 12:
+                                            $deptName = "ادارة المطاعم";
+                                            break;
+                                        case 13:
+                                            $deptName = "ادارة شركات الملاحة";
+                                            break;
+                                        case 14:
+                                            $deptName = "ادارة خدمات الضيافة الجوية و البحرية";
+                                            break;
+                                        case 15:
+                                            $deptName = "ادارة الاحداث الخاصة";
+                                            break;
+                                        case 16:
+                                            $deptName = "ادارة فنون الطهي";
+                                            break;
+                                        case 17:
+                                            $deptName = "ادارة الاحداث الرياضية";
+                                            break;
+                                        case 18:
+                                            $deptName = "ادارة خدمة العملاء";
+                                            break;
+                                    }
+                                @endphp
                                         <option value="{{$value}}" @if (old('departments_id') == $value) selected @endif>{{$deptName}}</option>
                                     @endforeach
                                 </select>
@@ -511,33 +671,65 @@
                                 <select class="custom-select" required id="departments" name="departments_id">
                                     <option value="" hidden></option>
                                     @foreach($filter_data['departments_id'] as $value)
-                                        @php
-                                            $deptName = '';
-                                            switch($value) {
-                                                case 1:
-                                                    $deptName = "عام";
-                                                    break;
-                                                case 2:
-                                                    $deptName = "نظم معلومات الاعمال";
-                                                    break;
-                                                case 3:
-                                                    $deptName = "المحاسبة و المراجعة";
-                                                    break;
-                                                case 4:
-                                                    $deptName = "التسويق والتجارة الالكترونية";
-                                                    break;
-                                                case 5:
-                                                    $deptName = "Business information systems";
-                                                    break;
-                                                case 6:
-                                                    $deptName = "Accounting and Review";
-                                                    break;
-                                                case 7:
-                                                    $deptName = "Marketing and E-commerce";
-                                                    break;
-
-                                            }
-                                        @endphp
+                                    @php
+                                    $deptName = '';
+                                    switch($value) {
+                                        case 1:
+                                            $deptName = "عام";
+                                            break;
+                                        case 2:
+                                            $deptName = "ترميم الأثار والمقتنيات الفنية العضوية";
+                                            break;
+                                        case 3:
+                                            $deptName = "ترميم الأثار والمقتنيات الفنية غيرالعضوية";
+                                            break;
+                                        case 4:
+                                            $deptName = "سياحة عام";
+                                            break;
+                                        case 5:
+                                            $deptName = "الدراسات السياحية و ادارة الضيافة";
+                                            break;
+                                        case 6:
+                                            $deptName = "ارشاد سياحي";
+                                            break;
+                                        case 7:
+                                            $deptName = "ادارة الاعمال السياحية";
+                                            break;
+                                        case 8:
+                                            $deptName = "ادارة الضيافة";
+                                            break;
+                                        case 9:
+                                            $deptName = "الدراسات السياحية";
+                                            break;
+                                        case 10:
+                                            $deptName = "ادارة الفنادق";
+                                            break;
+                                        case 11:
+                                            $deptName = "ادارة شركات الطيران";
+                                            break;
+                                        case 12:
+                                            $deptName = "ادارة المطاعم";
+                                            break;
+                                        case 13:
+                                            $deptName = "ادارة شركات الملاحة";
+                                            break;
+                                        case 14:
+                                            $deptName = "ادارة خدمات الضيافة الجوية و البحرية";
+                                            break;
+                                        case 15:
+                                            $deptName = "ادارة الاحداث الخاصة";
+                                            break;
+                                        case 16:
+                                            $deptName = "ادارة فنون الطهي";
+                                            break;
+                                        case 17:
+                                            $deptName = "ادارة الاحداث الرياضية";
+                                            break;
+                                        case 18:
+                                            $deptName = "ادارة خدمة العملاء";
+                                            break;
+                                    }
+                                @endphp
                                         <option value="{{$value}}" @if (old('departments_id') == $value) selected @endif>{{$deptName}}</option>
                                     @endforeach
                                 </select>
@@ -589,33 +781,65 @@
                                 <select class="custom-select" required id="departments" name="departments_id">
                                     <option value="" hidden></option>
                                     @foreach($filter_data['departments_id'] as $value)
-                                        @php
-                                            $deptName = '';
-                                            switch($value) {
-                                                case 1:
-                                                    $deptName = "عام";
-                                                    break;
-                                                case 2:
-                                                    $deptName = "نظم معلومات الاعمال";
-                                                    break;
-                                                case 3:
-                                                    $deptName = "المحاسبة و المراجعة";
-                                                    break;
-                                                case 4:
-                                                    $deptName = "التسويق والتجارة الالكترونية";
-                                                    break;
-                                                case 5:
-                                                    $deptName = "Business information systems";
-                                                    break;
-                                                case 6:
-                                                    $deptName = "Accounting and Review";
-                                                    break;
-                                                case 7:
-                                                    $deptName = "Marketing and E-commerce";
-                                                    break;
-
-                                            }
-                                        @endphp
+                                    @php
+                                    $deptName = '';
+                                    switch($value) {
+                                        case 1:
+                                            $deptName = "عام";
+                                            break;
+                                        case 2:
+                                            $deptName = "ترميم الأثار والمقتنيات الفنية العضوية";
+                                            break;
+                                        case 3:
+                                            $deptName = "ترميم الأثار والمقتنيات الفنية غيرالعضوية";
+                                            break;
+                                        case 4:
+                                            $deptName = "سياحة عام";
+                                            break;
+                                        case 5:
+                                            $deptName = "الدراسات السياحية و ادارة الضيافة";
+                                            break;
+                                        case 6:
+                                            $deptName = "ارشاد سياحي";
+                                            break;
+                                        case 7:
+                                            $deptName = "ادارة الاعمال السياحية";
+                                            break;
+                                        case 8:
+                                            $deptName = "ادارة الضيافة";
+                                            break;
+                                        case 9:
+                                            $deptName = "الدراسات السياحية";
+                                            break;
+                                        case 10:
+                                            $deptName = "ادارة الفنادق";
+                                            break;
+                                        case 11:
+                                            $deptName = "ادارة شركات الطيران";
+                                            break;
+                                        case 12:
+                                            $deptName = "ادارة المطاعم";
+                                            break;
+                                        case 13:
+                                            $deptName = "ادارة شركات الملاحة";
+                                            break;
+                                        case 14:
+                                            $deptName = "ادارة خدمات الضيافة الجوية و البحرية";
+                                            break;
+                                        case 15:
+                                            $deptName = "ادارة الاحداث الخاصة";
+                                            break;
+                                        case 16:
+                                            $deptName = "ادارة فنون الطهي";
+                                            break;
+                                        case 17:
+                                            $deptName = "ادارة الاحداث الرياضية";
+                                            break;
+                                        case 18:
+                                            $deptName = "ادارة خدمة العملاء";
+                                            break;
+                                    }
+                                @endphp
                                         <option value="{{$value}}" @if (old('departments_id') == $value) selected @endif>{{$deptName}}</option>
                                     @endforeach
                                 </select>

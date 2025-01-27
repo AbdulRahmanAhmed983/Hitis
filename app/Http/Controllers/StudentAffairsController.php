@@ -1942,7 +1942,7 @@ class StudentAffairsController extends Controller
             'card_and_email' =>'required|numeric|between:0,15000',
             'renew_card_and_email' =>'required|numeric|between:0,15000',
             'military_expenses' =>'required|numeric|between:0,15000',
-            'amount' => 'required|numeric|between:500,15000',
+            'amount' => 'required|numeric|between:300,15000',
         ];
         $student = $data = $request->validate($rules);
         unset($data['name'], $data['study_group'], $data['specialization']);

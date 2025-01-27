@@ -552,6 +552,13 @@ class AcademicAdvisingController extends Controller
         }
         $student = $this->getStudentInfo($student_code);
         $courses = $this->getStudentCourses($student);
+
+        $warningValue = DB::table('students_current_warning')
+                  ->where('student_code', $student_code)
+                  ->value('warning');
+        $half_load= $this->getData(['load_hours'])['load_hours'][0];
+        $high_load= $this->getData(['load_hours'])['load_hours'][1];
+        $cgpa_high_load= $this->getData(['load_hours'])['load_hours'][2];
         $StudentLevel="";
         if ($student['study_group']=="الاولي")
         {
@@ -598,7 +605,9 @@ class AcademicAdvisingController extends Controller
         foreach ($courses[1] as $course) {
             $courses_code[$course->full_code] = $course->hours;
         }
-        $registration_hour = $this->getStudentsRegistrationHour($student['specialization'], $student['study_group']);
+            $registration_hour =
+            ($student['cgpa'] >= $cgpa_high_load || $student['study_group']=='الرابعة' ) ? $high_load  :
+            $this->getStudentsRegistrationHour($student['specialization'], $student['study_group']);
         if (array_sum($courses_code) < $registration_hour) {
             foreach ($courses[4] as $course) {
                 $courses_code[$course->full_code] = $course->hours;
@@ -691,6 +700,9 @@ class AcademicAdvisingController extends Controller
             $hour += $course['hours'];
             if ($hour > $registration_hour) {
                 return redirect()->back()->with('error', 'لا يمكن التسجيل لقد تم تجاوز ' . $registration_hour . ' الساعة');
+            }
+            if ($warningValue>=1 && $hour >  $half_load){
+                return redirect()->back()->with('error', 'لا يمكن التسجيل لقد تم تجاوز ' .  $half_load . ' الساعة');
             }
             $insert_courses[] = [
                 'student_code' => $student_code,

@@ -12,7 +12,7 @@ class Student extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = [
-        'name', 'national_id', 'issuer_national_number', 'certificate_obtained', 'certificate_obtained_date',
+        'name', 'national_id', 'issuer_national_number', 'certificate_obtained', 'certificate_obtained_date','status_graduated',
         'nationality', 'birth_date', 'birth_province', 'birth_country', 'gender', 'religion', 'address',
         'landline_phone', 'mobile', 'father_profession', 'Parents_phone1', 'Parents_phone2', 'student_classification',
         'classification_notes', 'study_group','departments_id', 'specialization', 'academic_advisor', 'studying_status',

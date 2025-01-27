@@ -58,39 +58,43 @@
                         </div>
                         <div>
                             @if(!is_null($wallet_administrative_expenses) || !is_null($payments_extra_fees))
-                                    <table class="table table-bordered text-center">
-                                        <tr>
-                                            <th>السنة</th>
-                                            <th>التاريخ</th>
-                                            <th>المبلغ</th>
-                                            <th>الحافظة</th>
-                                            <th>نوع الحافظة</th>
-                                            <th>الحالة</th>
-                                        </tr>
-                                            <tr>
-                                                <td>{{$wallet_administrative_expenses->year}}</td>
-                                                <td>{{$wallet_administrative_expenses->date}}</td>
-                                                <td>{{$wallet_administrative_expenses->amount}}</td>
-                                                <td>{{$wallet_administrative_expenses->ticket_id}}</td>
-                                                <td>مصاريف ادارية</td>
-                                               <td> @if($wallet_administrative_expenses->used === 0) غير مدفوع @else  مدفوع @endif </td>
-                                            </tr>
-                                            @foreach ($payments_extra_fees as $payments_extra_fee)
-                                                <tr>
-                                                    <td>{{$payments_extra_fee->year}}</td>
-                                                    <td>{{$payments_extra_fee->date}}</td>
-                                                    <td>{{$payments_extra_fee->amount}}</td>
-                                                    <td>{{$payments_extra_fee->ticket_id}}</td>
-                                                    <td>{{ $payments_extra_fee->type }}</td>
-                                                <td> @if($payments_extra_fee->used === 0) غير مدفوع @else  مدفوع @endif </td>
-                                                </tr>
-                                                @endforeach
-                                    </table>
-                            @else
-                                <div class="alert alert-warning text-center">
-                                    <h6>الطالب ليس لديه محفظة مصاريف </h6>
-                                </div>
-                            @endif
+    <table class="table table-bordered text-center">
+        <tr>
+            <th>السنة</th>
+            <th>التاريخ</th>
+            <th>المبلغ</th>
+            <th>الحافظة</th>
+            <th>نوع الحافظة</th>
+            <th>الحالة</th>
+        </tr>
+        <tr>
+            <td>{{$wallet_administrative_expenses->year}}</td>
+            <td>{{$wallet_administrative_expenses->date}}</td>
+            <td>{{$wallet_administrative_expenses->amount}}</td>
+            <td>{{$wallet_administrative_expenses->ticket_id}}</td>
+            <td>مصاريف ادارية</td>
+            <td> @if($wallet_administrative_expenses->used === 0) غير مدفوع @else مدفوع @endif  / {{ $wallet_administrative_expenses->payment_type }} </td>
+        </tr>
+
+        @if(!is_null($payments_extra_fees) && count($payments_extra_fees) > 0)
+            @foreach ($payments_extra_fees as $payments_extra_fee)
+                <tr>
+                    <td>{{$payments_extra_fee->year}}</td>
+                    <td>{{$payments_extra_fee->date}}</td>
+                    <td>{{$payments_extra_fee->amount}}</td>
+                    <td>{{$payments_extra_fee->ticket_id}}</td>
+                    <td>{{ $payments_extra_fee->type }}</td>
+                    <td> @if($payments_extra_fee->used === 0) غير مدفوع @else مدفوع @endif {{ $payments_extra_fee->payment_type }} </td>
+                </tr>
+            @endforeach
+        @endif
+    </table>
+@else
+    <div class="alert alert-warning text-center">
+        <h6>الطالب ليس لديه محفظة مصاريف </h6>
+    </div>
+@endif
+
                         </div>
                     </div>
                 </div>

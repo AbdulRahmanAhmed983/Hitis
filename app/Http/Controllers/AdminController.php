@@ -265,6 +265,18 @@ class AdminController extends Controller
             ->where('id', 1)->first();
         $registration_hour['english'] = (array)DB::table('students_registration_hour')
             ->where('id', 2)->first();
+            // عدد المستويات
+            $registration_hour['Tarmem'] = (array)DB::table('students_registration_hour')
+            ->where('id', 3)->first();
+        $registration_hour['Tourism'] = (array)DB::table('students_registration_hour')
+            ->where('id', 4)->first();
+        $half_load= $this->getData(['load_hours'])['load_hours'][0];
+        $high_load= $this->getData(['load_hours'])['load_hours'][1];
+        $cgpa_high_load= $this->getData(['load_hours'])['load_hours'][2];
+
+
+
+
         $exception_students = DB::table('students_payments_exception')->pluck('student_code')->toArray();
         $military_education[] = $this->getData(['military_education_number'])['military_education_number'][0];
         $military_education[] = $this->getData(['military_education_payment'])['military_education_payment'][0];
@@ -296,12 +308,13 @@ class AdminController extends Controller
         $administrative_expenses_military['fourth'];
         $departments = DB::table('departments')->select('id','name')->orderBy('id')->get();
         $extra_fees = DB::table('extra_fees')->get()->toArray();
+
         $data_key = DB::table('data')->select('data_key')->distinct()->get()->toArray();
        return view('admin.configuration', compact('hour_payment', 'registration_hour',
             'data_key','departments', 'first_semester', 'second_semester', 'summer_semester', 'warning_threshold','maintenance_mood',
             'ministerial_payment', 'total_payment', 'moodle_registration', 'moodle_login', 'hour_payment_remaining',
             'academic_registration', 'ministerial_payment_remaining', 'section_numbers', 'english_degree',
-            'ministerial_receipt', 'exception_students', 'military_education','extra_fees'
+            'ministerial_receipt', 'exception_students', 'military_education','extra_fees','half_load','high_load','cgpa_high_load'
             ,'administrative_expenses_insurance','administrative_expenses_profile','administrative_expenses_registration_fees'
             ,'administrative_expenses_card_email','administrative_expenses_renew_card_email','administrative_expenses_military',
             'administrative_expenses_total_first','administrative_expenses_total_second','administrative_expenses_total_third','administrative_expenses_total_fourth'));
@@ -460,7 +473,7 @@ class AdminController extends Controller
         if ($request->ajax()) {
             $validator = Validator::make($request->all(), [
                 'data' => 'required|array|size:3',
-                'data.0' => 'required|in:E,R',
+                'data.0' => 'required|in:R,T',
                 'data.1' => 'required|integer|between:1,8',
                 'data.2' => 'required|integer|between:0,1',
                 'data.3' => 'required|integer',
@@ -780,6 +793,63 @@ class AdminController extends Controller
             }
             return redirect()->back()->with('success', 'تم تغير البيانات');
         } catch (Exception $ex) {
+            return redirect()->back()->with('error', 'خطأ في الإتصال');
+        }
+    }
+    public function updateRegistrationHourPerYear($type, Request $request)
+    {
+        $rule = [
+            'study_group_1' => 'required|integer|min:1',
+            'study_group_2' => 'required|integer|min:1',
+            'study_group_3' => 'required|integer|min:1',
+            'study_group_4' => 'required|integer|min:1',
+
+            //Youssef
+            'type' => 'required|string|in:Tarmem,Tourism'
+        ];
+        $request->merge(['type' => $type]);
+        $data = $request->validate($rule);
+        unset($data['type']);
+        try {
+
+            //Youssef
+            if ($type == 'Tarmem')
+            {
+                DB::table('students_registration_hour')->where('id', 3)->update($data);
+            }
+            else if ($type == 'Tourism'){
+                DB::table('students_registration_hour')->where('id', 4)->update($data);
+            }
+
+            return redirect()->back()->with('success', 'تم تغير البيانات');
+        } catch (Exception $ex) {
+            return redirect()->back()->with('error', 'خطأ في الإتصال');
+        }
+    }
+
+    public function changeLoadHours(Request $request)
+    {
+
+        $rule = [
+            'load_hours' => 'required|numeric|min:1',
+             'type' => 'required|in:high,half,cgpa'
+        ];
+        $data = $request->validate($rule);
+
+        try {
+
+            //Youssef
+            if ($data['type']=="half"){
+                DB::table('data')->where('data_key', 'load_hours')->where('sorting_index',1)->update(['value'=>$data['load_hours']]);
+            }
+     else if ($data['type']=="high"){
+        DB::table('data')->where('data_key', 'load_hours')->where('sorting_index',2)->update(['value'=>$data['load_hours']]);
+     }else if ($data['type']=="cgpa"){
+        DB::table('data')->where('data_key', 'load_hours')->where('sorting_index',3)->update(['value'=>$data['load_hours']]);
+     }
+            return redirect()->back()->with('success', 'تم تغير البيانات');
+        } catch (Exception $ex) {
+            dd($ex);
             return redirect()->back()->with('error', 'خطأ في الإتصال');
         }
     }
@@ -1339,6 +1409,30 @@ class AdminController extends Controller
             if (in_array($semester, ['ترم ثاني', 'ترم أول'])) {
                 DB::transaction(function () use ($semester, $year, $current_students, $warning_threshold) {
                     foreach ($current_students as $student) {
+                          $type = ($student['specialization'] == 'ترميم الاثار و المقتنيات الفنية') ? 'R' : 'T';
+                    //عدد ساعات المستويات
+                   if ( $type == 'T')
+                   {
+                    $registration_hour['Tarmem'] = (array)DB::table('students_registration_hour')
+                    ->where('id', 3)->first();
+                    $level_hours = [
+                        'الاولي' => [$registration_hour['Tarmem']['study_group_1'], 'الثانية'],
+                        'الثانية' => [$registration_hour['Tarmem']['study_group_2'], 'الثالثة'],
+                        'الثالثة' => [$registration_hour['Tarmem']['study_group_3'], 'الرابعة'],
+                        'الرابعة' => [$registration_hour['Tarmem']['study_group_4'], 'خريج']
+                    ];
+
+                   } //R
+                    else{
+                        $registration_hour['Tourism'] = (array)DB::table('students_registration_hour')
+                          ->where('id', 4)->first();
+                        $level_hours = [
+                            'الاولي' => [$registration_hour['Tourism']['study_group_1'], 'الثانية'],
+                            'الثانية' => [$registration_hour['Tourism']['study_group_2'], 'الثالثة'],
+                            'الثالثة' => [$registration_hour['Tourism']['study_group_3'], 'الرابعة'],
+                            'الرابعة' => [$registration_hour['Tourism']['study_group_4'], 'خريج']
+                        ];
+                    }
                         $restricted = !DB::table('students_excuses')
                             ->where('student_code', $student['username'])->where('year', $year)
                             ->where(function ($query) use ($semester) {
@@ -1350,11 +1444,8 @@ class AdminController extends Controller
                                         ->where('semester', $semester);
                                 });
                             })->exists();
-                        $previous_semesters = DB::table('students_semesters')
-                            ->where('student_code', $student['username'])
-                            ->whereRaw('CONCAT(year,\'-\',semester) != ?', [$year . '-' . $semester])->count();
                         $warning = 0;
-                        if ($restricted and $previous_semesters >= 1) {
+                        if ($restricted) {
                             if ($student['cgpa'] < $warning_threshold and $student['earned_hours'] < 105) {
                                 $warning = 1;
                                 DB::table('students_current_warning')
@@ -1371,9 +1462,25 @@ class AdminController extends Controller
                             'semester' => $semester,
                             'warning' => $warning,
                         ]);
+                         // Update or insert the student's semester record with the current CGPA, earned hours, and warning status.
+                         DB::table('students_semesters')->updateOrInsert(
+                            [
+                                'student_code' => $student['username'],  // Unique student identifier.
+                                'year' => $year,                         // Current academic year.
+                                'semester' => $semester,                 // Current academic semester.
+                            ],
+                            [
+                                'warning' => $warning,                   // Updated warning status.
+                                'cgpa' => $student['cgpa'],                 // Current Cumulative Grade Point Average.
+                                'earned_hours' => $student['earned_hours'], // Total earned hours by the student.
+                            ]
+                        );
+                        if($student['study_group'] == 'الرابعة'){
+                            $this->checkStatusGraduated($student['username'], $student['study_group']);
+                         }
                         $current_warning = DB::table('students_current_warning')
                             ->where('student_code', $student['username'])->first();
-                        if ($current_warning->warning >= 3) {
+                        if ($current_warning->warning >= 4) {
                             DB::table('students')->where('username', $student['username'])
                                 ->update(['student_classification' => 'مفصولين']);
                         }
@@ -1388,12 +1495,31 @@ class AdminController extends Controller
                 return redirect()->back()->with('success', 'تم تعديل انذارات الطلاب');
             } elseif ($semester == 'ترم صيفي') {
                 DB::transaction(function () use ($semester, $next_year, $year, $current_students, $warning_threshold) {
+                    $type = ($student['specialization'] == 'ترميم الاثار و المقتنيات الفنية') ? 'R' : 'T';
+                    //عدد ساعات المستويات
+
+                   if ( $type == 'T')
+                   {
+                    $registration_hour['Tarmem'] = (array)DB::table('students_registration_hour')
+                    ->where('id', 3)->first();
                     $level_hours = [
-                        'الاولي' => [27, 'الثانية'],
-                        'الثانية' => [60, 'الثالثة'],
-                        'الثالثة' => [93, 'الرابعة'],
-                        'الرابعة' => [132, 'خريج']
+                        'الاولي' => [$registration_hour['Tarmem']['study_group_1'], 'الثانية'],
+                        'الثانية' => [$registration_hour['Tarmem']['study_group_2'], 'الثالثة'],
+                        'الثالثة' => [$registration_hour['Tarmem']['study_group_3'], 'الرابعة'],
+                        'الرابعة' => [$registration_hour['Tarmem']['study_group_4'], 'خريج']
                     ];
+
+                   } //R
+                    else{
+                        $registration_hour['Tourism'] = (array)DB::table('students_registration_hour')
+                          ->where('id', 4)->first();
+                        $level_hours = [
+                            'الاولي' => [$registration_hour['Tourism']['study_group_1'], 'الثانية'],
+                            'الثانية' => [$registration_hour['Tourism']['study_group_2'], 'الثالثة'],
+                            'الثالثة' => [$registration_hour['Tourism']['study_group_3'], 'الرابعة'],
+                            'الرابعة' => [$registration_hour['Tourism']['study_group_4'], 'خريج']
+                        ];
+                    }
                     foreach ($current_students as $student) {
                         $student_excuse_stop = DB::table('students_excuses')
                             ->where('student_code', $student['username'])->where('year', $year)
@@ -1447,7 +1573,7 @@ class AdminController extends Controller
                                 /** hit7awel le  مستجد فى المستوى التالى **/
                                 $new_status = 'مستجد';
                                 $new_group = $level_hours[$student['study_group']][1];
-                                if ($new_group == 'خريج') {
+                                if ($new_group == '`خريج`') {
                                     if ($student['military_education'] != 'غير مجتاز') {
                                         $new_classification = 'خريجين';
                                     } else {
@@ -1467,7 +1593,11 @@ class AdminController extends Controller
                                             if ($registration_years < 5) {
                                                 /** hit7awel le من الخارج **/
                                                 $new_status = 'من الخارج';
-                                            } else {
+                                            }
+                                            elseif ($registration_years > 7) {
+                                                $new_classification = 'مفصولين';
+                                             }
+                                            else {
                                                 /** hit7awel le فصل الطالب **/
                                                 $new_classification = 'مفصولين';
                                             }
@@ -1476,6 +1606,19 @@ class AdminController extends Controller
                                 } else {
                                     $new_classification = 'مقيد';
                                 }
+                            }
+
+                             if ( ($new_group == 'خريج' && $student['cgpa']< $warning_threshold)){
+                                $new_group="خريج معلق تراكمي";
+                                $new_classification="مقيد";
+                            }
+                             if ( ($new_group == 'خريج معلق تراكمي' && $student['cgpa'] >= $warning_threshold)){
+                                $new_group="خريج";
+                                $new_classification="خرجين";
+                                //ناقص ال cgpa
+                                DB::table('students')->where('username', $student['username'])->update([
+                                    'cgpa' => $warning_threshold,
+                                ]);
                             }
                             DB::table('students')->where('username', $student['username'])->update([
                                 'study_group' => $new_group,
@@ -1508,6 +1651,7 @@ class AdminController extends Controller
             }
             return redirect()->back()->with('success', 'تم تعديل مستويات الطلاب');
         } catch (Exception $e) {
+            dd($e);
             return redirect()->back()->with('error', 'خطأ في الإتصال لم يتم تعديل البيانات');
         }
     }
@@ -2139,7 +2283,10 @@ class AdminController extends Controller
             $year = $this->getCurrentYear();
             $semester = $this->getCurrentSemester();
             $studentWallet = $this->getStudentWallet($student_code);
-            dd($this->checkPayFees($student_code));
+            // dd($this->checkPayFees($student_code));
+            $half_load= $this->getData(['load_hours'])['load_hours'][0];
+            $high_load= $this->getData(['load_hours'])['load_hours'][1];
+            $cgpa_high_load= $this->getData(['load_hours'])['load_hours'][2];
 
             if ($studentWallet) {
                 $wallet = $studentWallet->amount;
@@ -2161,7 +2308,9 @@ class AdminController extends Controller
             }
             $student = $this->getStudentInfo($student_code);
             $courses = $this->getStudentCourses($student);
-
+            $warningValue = DB::table('students_current_warning')
+                  ->where('student_code', $student_code)
+                  ->value('warning');
             $StudentLevel="";
             if ($student['study_group']=="الاولي")
             {
@@ -2201,7 +2350,12 @@ class AdminController extends Controller
             foreach ($courses[1] as $course) {
                 $courses_code[$course->full_code] = $course->hours;
             }
-            $registration_hour = $this->getStudentsRegistrationHour($student['specialization'], $student['study_group']);
+
+            $registration_hour =
+            ($student['cgpa'] >= $cgpa_high_load || $student['study_group']=='الرابعة') ? $high_load  :
+                $this->getStudentsRegistrationHour($student['specialization'], $student['study_group']);
+
+
             if (array_sum($courses_code) < $registration_hour) {
                 foreach ($courses[4] as $course) {
                     $courses_code[$course->full_code] = $course->hours;
@@ -2287,6 +2441,9 @@ class AdminController extends Controller
                 $hour += $course['hours'];
                 if ($hour > $registration_hour) {
                     return redirect()->back()->with('error', 'لا يمكن التسجيل لقد تم تجاوز ' . $registration_hour . ' الساعة');
+                }
+                if ($warningValue >=1 && $hour >  $half_load){
+                    return redirect()->back()->with('error', 'لا يمكن التسجيل لقد تم تجاوز ' .  $half_load . ' الساعة');
                 }
                 $insert_courses[] = [
                     'student_code' => $student_code,

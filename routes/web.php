@@ -122,7 +122,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
                 // Route::get('/getRegistration',[AdminController::class, 'getRegistration'])->name('getRegistration');
                 // Route::post('/exportRegistration',[AdminController::class, 'exportRegistration'])->name('exportRegistration');
-
+                Route::put('/update-registration-hour-per-year/{type}', [AdminController::class, 'updateRegistrationHourPerYear'])->name('update.registration.hour.year');
+                Route::put('/changeLoadHours', [AdminController::class, 'changeLoadHours'])->name('change.changeLoadHours');
 
                  // Management_Expenses
                 Route::put('/update-insurance', [AdminController::class, 'updateInsurancePayment'])->name('update.insurance.payment');
@@ -186,7 +187,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
             Route::post('/store-converted-administrative-expenses',[StudentAffairsController::class, 'storeconvertedAdministraitve'])->name('store.converted.administraitve');
             Route::post('/import-convert-administrative-expenses',[StudentAffairsController::class, 'importAdministraitve'])->name('import.administraitve');
             Route::post('/store-wallet-extra-fees',[StudentAffairsController::class, 'storeExtraFees'])->name('store.extra.fees');
-            Route::get('/get-amount', [StudentAffairsController::class, 'getAmountExtraFees'])->name('getAmountExtraFees');;
+                Route::get('/get-amount', [StudentAffairsController::class, 'getAmountExtraFees'])->name('getAmountExtraFees');;
         });
         Route::group(['prefix' => '/reports', 'middleware' => ['auth', 'check-status', 'check-user:owner;admin;student_affairs;finance']], function () {
             Route::get('/student-reports', [ReportsController::class, 'reportsIndex'])->name('student.reports');

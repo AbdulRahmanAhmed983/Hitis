@@ -301,7 +301,7 @@
                         @method('put')
                         <div class="card card-primary text-capitalize">
                             <div class="card-header">
-                                <h2 class="card-title">hour payment (arabic)</h2>
+                                <h2 class="card-title">hour payment (Tarmem)</h2>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -362,7 +362,7 @@
                         @method('put')
                         <div class="card card-primary text-capitalize">
                             <div class="card-header">
-                                <h2 class="card-title">ministerial payment (arabic)</h2>
+                                <h2 class="card-title">ministerial payment (Tarmem)</h2>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -423,7 +423,7 @@
                         @method('put')
                         <div class="card card-primary text-capitalize">
                             <div class="card-header">
-                                <h2 class="card-title">hour payment for remaining students (arabic)</h2>
+                                <h2 class="card-title">hour payment for remaining students (Tarmem)</h2>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -476,7 +476,7 @@
                         @method('put')
                         <div class="card card-primary text-capitalize">
                             <div class="card-header">
-                                <h2 class="card-title">ministerial payment for remaining students (arabic)</h2>
+                                <h2 class="card-title">ministerial payment for remaining students (Tarmem)</h2>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -537,7 +537,7 @@
                         @method('put')
                         <div class="card card-primary text-capitalize">
                             <div class="card-header">
-                                <h2 class="card-title">total student payment (arabic)</h2>
+                                <h2 class="card-title">total student payment (Tarmem)</h2>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -598,7 +598,7 @@
                         @method('put')
                         <div class="card card-primary text-capitalize">
                             <div class="card-header">
-                                <h2 class="card-title">student registration hour (arabic)</h2>
+                                <h2 class="card-title">student registration hour</h2>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -654,12 +654,68 @@
                             </div>
                         </div>
                     </form>
+
+                    {{-- update hour  per year --}}
+                    <form action="{{ route('update.registration.hour.year', ['type' => 'Tarmem']) }}" method="post">
+                        @csrf
+                        @method('put')
+                        <div class="card card-primary text-capitalize">
+                            <div class="card-header">
+                                <h2 class="card-title">student registration hour per year </h2>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row justify-content-md-around">
+                                    <div class="col-lg-2 col-md-5">
+                                        <div class="form-group">
+                                            <label for="study_group_1">المستوي الثاني</label>
+                                            <input type="number" step="1" autocomplete="off" class="form-control"
+                                                id="study_group_1" name="study_group_1" required
+                                                value="{{ $registration_hour['Tarmem']['study_group_1'] }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-5">
+                                        <div class="form-group">
+                                            <label for="study_group_2">المستوي الثالث</label>
+                                            <input type="number" step="1" autocomplete="off" class="form-control"
+                                                id="study_group_2" name="study_group_2" required
+                                                value="{{ $registration_hour['Tarmem']['study_group_2'] }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-5">
+                                        <div class="form-group">
+                                            <label for="study_group_3">المستوي الرابع</label>
+                                            <input type="number" step="1" autocomplete="off" class="form-control"
+                                                id="study_group_3" name="study_group_3" required
+                                                value="{{ $registration_hour['Tarmem']['study_group_3'] }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-5">
+                                        <div class="form-group">
+                                            <label for="study_group_4">التخرج</label>
+                                            <input type="number" step="1" autocomplete="off" class="form-control"
+                                                id="study_group_4" name="study_group_4" required
+                                                value="{{ $registration_hour['Tarmem']['study_group_4'] }}">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </form>
                     <form action="{{route('update.section.number',['type'=>'arabic'])}}" method="post">
                         @csrf
                         @method('put')
                         <div class="card card-primary text-capitalize">
                             <div class="card-header">
-                                <h2 class="card-title">number of students per section (arabic)</h2>
+                                <h2 class="card-title">number of students per section (Tarmem)</h2>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -718,7 +774,7 @@
                         @method('put')
                         <div class="card card-primary text-capitalize">
                             <div class="card-header">
-                                <h2 class="card-title">hour payment (english)</h2>
+                                <h2 class="card-title">hour payment (Tourm)</h2>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -779,7 +835,7 @@
                         @method('put')
                         <div class="card card-primary text-capitalize">
                             <div class="card-header">
-                                <h2 class="card-title">ministerial payment (english)</h2>
+                                <h2 class="card-title">ministerial payment</h2>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -840,7 +896,7 @@
                         @method('put')
                         <div class="card card-primary text-capitalize">
                             <div class="card-header">
-                                <h2 class="card-title">hour payment for remaining students (english)</h2>
+                                <h2 class="card-title">hour payment for remaining students (Tourm)</h2>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -893,7 +949,7 @@
                         @method('put')
                         <div class="card card-primary text-capitalize">
                             <div class="card-header">
-                                <h2 class="card-title">ministerial payment for remaining students (english)</h2>
+                                <h2 class="card-title">ministerial payment for remaining students (Tourm)</h2>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -954,7 +1010,7 @@
                         @method('put')
                         <div class="card card-primary text-capitalize">
                             <div class="card-header">
-                                <h2 class="card-title">total student payment (arabic)</h2>
+                                <h2 class="card-title">total student payment (Tourm)</h2>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -1015,7 +1071,7 @@
                         @method('put')
                         <div class="card card-primary text-capitalize">
                             <div class="card-header">
-                                <h2 class="card-title">student registration hour (english)</h2>
+                                <h2 class="card-title">student registration hour (Tourm)</h2>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -1071,12 +1127,68 @@
                             </div>
                         </div>
                     </form>
+
+                    {{-- update Hour tour per year --}}
+                    <form action="{{ route('update.registration.hour.year', ['type' => 'Tourism']) }}" method="post">
+                        @csrf
+                        @method('put')
+                        <div class="card card-primary text-capitalize">
+                            <div class="card-header">
+                                <h2 class="card-title">student registration hour per year </h2>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row justify-content-md-around">
+                                    <div class="col-lg-2 col-md-5">
+                                        <div class="form-group">
+                                            <label for="study_group_1">المستوي الثاني</label>
+                                            <input type="number" step="1" autocomplete="off"
+                                                class="form-control" id="study_group_1" name="study_group_1" required
+                                                value="{{ $registration_hour['Tourism']['study_group_1'] }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-5">
+                                        <div class="form-group">
+                                            <label for="study_group_2">المستوي الثالث</label>
+                                            <input type="number" step="1" autocomplete="off"
+                                                class="form-control" id="study_group_2" name="study_group_2" required
+                                                value="{{ $registration_hour['Tourism']['study_group_2'] }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-5">
+                                        <div class="form-group">
+                                            <label for="study_group_3">المستوي الرابع</label>
+                                            <input type="number" step="1" autocomplete="off"
+                                                class="form-control" id="study_group_3" name="study_group_3" required
+                                                value="{{ $registration_hour['Tourism']['study_group_3'] }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-5">
+                                        <div class="form-group">
+                                            <label for="study_group_4">التخرج</label>
+                                            <input type="number" step="1" autocomplete="off"
+                                                class="form-control" id="study_group_4" name="study_group_4" required
+                                                value="{{ $registration_hour['Tourism']['study_group_4'] }}">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </form>
                     <form action="{{route('update.section.number',['type'=>'english'])}}" method="post">
                         @csrf
                         @method('put')
                         <div class="card card-primary text-capitalize">
                             <div class="card-header">
-                                <h2 class="card-title">number of students per section (english)</h2>
+                                <h2 class="card-title">number of students per section (Tourm)</h2>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -1344,11 +1456,11 @@
                                                 {{ 'selected' }}
                                                 @endif>الدراسات السياحية و ادارة الضيافة
                                             </option>
-                                            <option value="7" @if (old('departments_id') == "6")
+                                            <option value="6" @if (old('departments_id') == "6")
                                                 {{ 'selected' }}
                                                 @endif>ارشاد سياحي
                                             </option>
-                                            <option value="3" @if (old('departments_id') == "7")
+                                            <option value="7" @if (old('departments_id') == "7")
                                                 {{ 'selected' }}
                                                 @endif>ادارة الاعمال السياحية
                                             </option>
@@ -1358,37 +1470,41 @@
                                             </option>
                                             <option value="9" @if (old('departments_id') == "9")
                                                 {{ 'selected' }}
-                                                @endif>ادارة الفنادق
+                                                @endif>الدراسات السياحية
                                             </option>
                                             <option value="10" @if (old('departments_id') == "10")
                                                 {{ 'selected' }}
-                                                @endif>ادارة شركات الطيران
+                                                @endif>ادارة الفنادق
                                             </option>
                                             <option value="11" @if (old('departments_id') == "11")
                                                 {{ 'selected' }}
-                                                @endif>ادارة المطاعم
+                                                @endif>ادارة شركات الطيران
                                             </option>
                                             <option value="12" @if (old('departments_id') == "12")
                                                 {{ 'selected' }}
-                                                @endif>ادارة شركات الملاحة
+                                                @endif>ادارة المطاعم
                                             </option>
                                             <option value="13" @if (old('departments_id') == "13")
                                                 {{ 'selected' }}
-                                                @endif>ادارة خدمات الضيافة الجوية و البحرية
+                                                @endif>ادارة شركات الملاحة
                                             </option>
                                             <option value="14" @if (old('departments_id') == "14")
                                                 {{ 'selected' }}
-                                                @endif>ادارة الاحداث الخاصة
+                                                @endif>ادارة خدمات الضيافة الجوية و البحرية
                                             </option>
                                             <option value="15" @if (old('departments_id') == "15")
                                                 {{ 'selected' }}
-                                                @endif>ادارة فنون الطهي
+                                                @endif>ادارة الاحداث الخاصة
                                             </option>
                                             <option value="16" @if (old('departments_id') == "16")
                                                 {{ 'selected' }}
-                                                @endif>ادارة الاحداث الرياضية
+                                                @endif>ادارة فنون الطهي
                                             </option>
                                             <option value="17" @if (old('departments_id') == "17")
+                                                {{ 'selected' }}
+                                                @endif>ادارة الاحداث الرياضية
+                                            </option>
+                                            <option value="18" @if (old('departments_id') == "18")
                                                 {{ 'selected' }}
                                                 @endif>ادارة خدمة العملاء
                                             </option>
@@ -1597,6 +1713,124 @@
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </div>
+                        </div>
+                    </form>
+                    <form action="{{ route('change.changeLoadHours') }}" method="post">
+                        @csrf
+                        @method('put')
+                        <div class="card card-primary text-capitalize">
+                            <div class="card-header">
+                                <h2 class="card-title">Load hours</h2>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <form action="{{ route('change.changeLoadHours') }}" method="post">
+                                                @csrf
+                                                @method('put')
+                                                <div class="card card-primary text-capitalize">
+
+                                                    <div class="card-body">
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <input name="type" hidden value="half">
+                                                                    <label for="warning_threshold">half load</label>
+                                                                    <input type="number" step="1"
+                                                                        min="0" autocomplete="off"
+                                                                        class="form-control" id="warning_threshold"
+                                                                        name="load_hours" required
+                                                                        value="{{ $half_load }}">
+
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-footer">
+                                                        <button type="submit" class="btn btn-primary">Save</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-4">
+                                            <form action="{{ route('change.changeLoadHours') }}" method="post">
+                                                @csrf
+                                                @method('put')
+                                                <div class="card card-primary text-capitalize">
+
+                                                    <div class="card-body">
+                                                        <div class="form-group">
+                                                            <div class="row">
+
+                                                                <div class="col-6">
+                                                                    <label for="warning_threshold">high load</label>
+
+                                                                    <input name="type" hidden value="high">
+                                                                    <input type="number" step="1"
+                                                                        min="0" autocomplete="off"
+                                                                        class="form-control" id="warning_threshold"
+                                                                        name="load_hours" required
+                                                                        value="{{ $high_load }}">
+
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-footer">
+                                                        <button type="submit" class="btn btn-primary">Save</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-4">
+                                            <form action="{{ route('change.changeLoadHours') }}" method="post">
+                                                @csrf
+                                                @method('put')
+                                                <div class="card card-primary text-capitalize">
+
+                                                    <div class="card-body">
+                                                        <div class="form-group">
+                                                            <div class="row">
+
+                                                                <div class="col-6">
+                                                                    <label for="warning_threshold">cgpa high load</label>
+
+                                                                    <input name="type" hidden value="cgpa">
+                                                                    <input type="number" step="0.1"
+                                                                        min="0" autocomplete="off"
+                                                                        class="form-control" id="warning_threshold"
+                                                                        name="load_hours" required
+                                                                        value="{{ $cgpa_high_load }}">
+
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-footer">
+                                                        <button type="submit" class="btn btn-primary">Save</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
                         </div>
                     </form>
                     <form id="update-level" action="{{route('change.students.level')}}" method="post">
@@ -2193,61 +2427,60 @@
 
      <div class="tab-pane fade" id="extra_fees_content" role="tabpanel"
            aria-labelledby="extra_fees_tab">
+           <form action="{{route('update.extra.fees')}}" method="post">
+            @csrf
+            @method('put')
+            <div class="card card-primary text-capitalize">
 
-                        <form action="{{route('update.extra.fees')}}" method="post">
-                            @csrf
-                            @method('put')
-                            <div class="card card-primary text-capitalize">
-
-                                <div class="card-header">
-                                    <h2 class="card-title">Extra Fees</h2>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    @foreach ($extra_fees as $index => $extra_fee)
-                                        <div class="row justify-content-md-around">
-                                            <div class="col-lg-4 col-md-4">
-                                                <div class="form-group">
-                                                    <label for="name_fees_{{ $index }}">Label</label>
-                                                    <input type="text" autocomplete="off" class="form-control" id="name_fees_{{ $index }}" name="name_fees[{{ $index }}]" required value="{{ $extra_fee->name_fees }}">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4 col-md-4">
-                                                <div class="form-group">
-                                                    <label for="amount_{{ $index }}">Amount</label>
-                                                    <input type="number" step=".01" autocomplete="off" class="form-control" id="amount_{{ $index }}" name="amount[{{ $index }}]" required value="{{ $extra_fee->amount }}">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-4 col-md-4">
-                                                <div class="form-group clearfix">
-                                                    <h5 class="mb-3">Status ON / OFF</h5>
-                                                    <div class="icheck-primary d-inline mx-2">
-                                                        <input type="radio" id="active_{{ $index }}_1" name="active[{{ $index }}]" {{ $extra_fee->active == 1 ? 'checked' : '' }} value="1">
-                                                        <label for="active_{{ $index }}_1"></label>
-                                                        <span>ON</span>
-                                                    </div>
-                                                    <div class="icheck-primary d-inline mx-2">
-                                                        <input type="radio" id="active_{{ $index }}_2" name="active[{{ $index }}]" {{ $extra_fee->active == 0 ? 'checked' : '' }} value="0">
-                                                        <label for="active_{{ $index }}_2"></label>
-                                                        <span>OFF</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Save</button>
+                <div class="card-header">
+                    <h2 class="card-title">Extra Fees</h2>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @foreach ($extra_fees as $index => $extra_fee)
+                        <div class="row justify-content-md-around">
+                            <div class="col-lg-4 col-md-4">
+                                <div class="form-group">
+                                    <label for="name_fees_{{ $index }}">Label</label>
+                                    <input type="text" autocomplete="off" class="form-control" id="name_fees_{{ $index }}" name="name_fees[{{ $index }}]" required value="{{ $extra_fee->name_fees }}">
                                 </div>
                             </div>
-                        </form>
+
+                            <div class="col-lg-4 col-md-4">
+                                <div class="form-group">
+                                    <label for="amount_{{ $index }}">Amount</label>
+                                    <input type="number" step=".01" autocomplete="off" class="form-control" id="amount_{{ $index }}" name="amount[{{ $index }}]" required value="{{ $extra_fee->amount }}">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4">
+                                <div class="form-group clearfix">
+                                    <h5 class="mb-3">Status ON / OFF</h5>
+                                    <div class="icheck-primary d-inline mx-2">
+                                        <input type="radio" id="active_{{ $index }}_1" name="active[{{ $index }}]" {{ $extra_fee->active == 1 ? 'checked' : '' }} value="1">
+                                        <label for="active_{{ $index }}_1"></label>
+                                        <span>ON</span>
+                                    </div>
+                                    <div class="icheck-primary d-inline mx-2">
+                                        <input type="radio" id="active_{{ $index }}_2" name="active[{{ $index }}]" {{ $extra_fee->active == 0 ? 'checked' : '' }} value="0">
+                                        <label for="active_{{ $index }}_2"></label>
+                                        <span>OFF</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
         </div>
             </div>
         </div>
@@ -2386,6 +2619,22 @@
             '<option value="1" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '1') selected @endif>عام</option>' +
             '<option value="2" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '2') selected @endif>ترميم الأثار والمقتنيات الفنية العضوية</option>' +
             '<option value="3" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '3') selected @endif>الترميم الأثار والمقتنيات الفنية غيرالعضوية</option>' +
+            '<option value="4" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '4') selected @endif>سياحة عام</option>' +
+            '<option value="5" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '5') selected @endif>الدراسات السياحية و ادارة الضيافة</option>' +
+            '<option value="6" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '6') selected @endif>ارشاد سياحي</option>' +
+            '<option value="7" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '7') selected @endif>ادارة الاعمال السياحية</option>' +
+            '<option value="8" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '8') selected @endif>ادارة الضيافة</option>' +
+            '<option value="9" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '9') selected @endif>الدراسات السياحية</option>' +
+            '<option value="10" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '10') selected @endif>ادارة الفنادق</option>' +
+            '<option value="11" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '11') selected @endif>ادارة شركات الطيران</option>' +
+            '<option value="12" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '12') selected @endif>ادارة المطاعم</option>' +
+            '<option value="13" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '13') selected @endif>ادارة شركات الملاحة</option>' +
+            '<option value="14" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '14') selected @endif>ادارة خدمات الضيافة الجوية و البحرية</option>' +
+            '<option value="15" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '15') selected @endif>ادارة الاحداث الخاصة</option>' +
+            '<option value="16" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '16') selected @endif>ادارة فنون الطهي</option>' +
+            '<option value="17" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '17') selected @endif>ادارة الاحداث الرياضية</option>' +
+            '<option value="18" @if(!empty(session()->getOldInput('departments_id')[$i]) and session()->getOldInput('departments_id')[$i] == '18') selected @endif>ادارة خدمة العملاء</option>' +
+
             '</select></td>' +
             '<td><input type="number" class="form-control" name="course_hours[]" required value="{{empty(session()->getOldInput('course_hours')[$i])?'':session()->getOldInput('course_hours')[$i]}}"></td>' +
             '<td><select class="custom-select course" required name="course_elective[]">' +
@@ -2430,15 +2679,16 @@
                 '<option value="6">ارشاد سياحي</option>' +
                 '<option value="7">ادارة الاعمال السياحية</option>' +
                 '<option value="8">ادارة الضيافة</option>' +
-                '<option value="9">ادارة الفنادق</option>' +
-                '<option value="10">ادارة شركات الطيران</option>' +
-                '<option value="11">ادارة المطاعم</option>' +
-                '<option value="12">ادارة شركات الملاحة</option>' +
-                '<option value="13">ادارة خدمات الضيافة الجوية و البحرية</option>' +
-                '<option value="14">ادارة الاحداث الخاصة</option>' +
-                '<option value="15">ادارة فنون الطهي</option>' +
-                '<option value="16">ادارة الاحداث الرياضية</option>' +
-                '<option value="17">ادارة خدمة العملاء</option>' +
+                '<option value="9">الدراسات السياحية</option>' +
+                '<option value="10">ادارة الفنادق</option>' +
+                '<option value="11">ادارة شركات الطيران</option>' +
+                '<option value="12">ادارة المطاعم</option>' +
+                '<option value="13">ادارة شركات الملاحة</option>' +
+                '<option value="14">ادارة خدمات الضيافة الجوية و البحرية</option>' +
+                '<option value="15">ادارة الاحداث الخاصة</option>' +
+                '<option value="16">ادارة فنون الطهي</option>' +
+                '<option value="17">ادارة الاحداث الرياضية</option>' +
+                '<option value="18">ادارة خدمة العملاء</option>' +
                 '</select></td>' +
                 '</tr>');
         }

@@ -60,7 +60,9 @@ class FinanceController extends Controller
             0 AS `other_payment`,0 AS `other_paid`,
             IF(`type` = \'اخرى\',SUM(`amount`),0) AS `other_discount`')
             ->groupBy('student_code', 'year', 'semester', 'type');
-        $students_s->union($students_d)->union($students_o);
+            $students_admin_expenses = DB::table('payments_administrative_expenses')
+            ->selectRaw('`student_code`, `year`, `amount` AS `administrative_expenses`');
+            $students_s->union($students_d)->union($students_o)->union($students_admin_expenses);
         $payments = DB::table('students')->joinSub($students_s, 'payments', function ($join) {
             $join->on('students.username', '=', 'payments.student_code');
         })->selectRaw('
@@ -75,14 +77,15 @@ class FinanceController extends Controller
             `semester`,
             SUM(`hours`) AS `hours`,
             SUM(`ministerial_payment`) AS `ministerial_payment`,
-            SUM(`study_payment`) AS `study_payment`,
+            SUM(`s  tudy_payment`) AS `study_payment`,
             SUM(`study_paid`) AS `study_paid`,
             SUM(`study_discount`) AS `study_discount`,
             (SUM(`study_payment`) - SUM(`study_paid`) - SUM(`study_discount`)) AS `remaining_study`,
             SUM(`other_payment`) AS `other_payment`,
             SUM(`other_paid`) AS `other_paid`,
             SUM(`other_discount`) AS `other_discount`,
-            (SUM(`other_payment`) - SUM(`other_paid`) - SUM(`other_discount`)) AS `remaining_other`')
+             (SUM(`other_payment`) - SUM(`other_paid`) - SUM(`other_discount`)) AS `remaining_other`,
+         SUM(`administrative_expenses`) AS `administrative_expenses`')
             ->groupBy('student_code');
         if (!empty($data) or !is_null($request->search)) {
             $request->validate([
@@ -157,7 +160,8 @@ class FinanceController extends Controller
             return $value;
         });
         $keys = ['الاسم', 'code', 'تصنيف الطلاب', 'الفرقة الدراسية', 'التخصص', 'الشعبة','الحالة الدراسية', 'الساعات المسجلة',
-            'المصاريف الادارية', 'اجمالى المصاريف الدراسية', 'المدفوع', 'اجمالى الخصومات الدراسية',
+            'المصاريف الوزارية', 'اجمالى المصاريف الدراسية', 'المدفوع', 'اجمالى الخصومات الدراسية',
+            'المصاريف الادارية',
             'باقي المصاريف الدراسية', 'اجمالى المصاريف الاخرى', 'المدفوع', 'اجمالى الخصومات الاخرى',
             'باقي المصاريف الاخرى', 'مبلغ المحفظة الحالى'];
         return view('finance.show_finance')->with([
@@ -1188,10 +1192,10 @@ class FinanceController extends Controller
                     'amount' => 'required|numeric|between:1,20000'])['amount'];
                 $reason = $request->validate(['reason' => 'required|string|max:255|regex:/^[^<>#;*]+$/u'])['reason'];
                 $year = $this->getCurrentYear();
-                $get_amount = DB::table('payments_administrative_expenses')->where('student_code',$request->username)->where('year',$year)->pluck('amount')->toArray()[0];
-                if($request->amount != $get_amount){
-                    return redirect()->back()->with('error', 'هذا الطالب لدية محفظة بقيمة' . $get_amount)->withInput();
-                }
+                // $get_amount = DB::table('payments_administrative_expenses')->where('student_code',$request->username)->where('year',$year)->pluck('amount')->toArray()[0];
+                // if($request->amount != $get_amount){
+                //     return redirect()->back()->with('error', 'هذا الطالب لدية محفظة بقيمة' . $get_amount)->withInput();
+                // }
                 $data = [
                     'student_code' => $student_code,
                     'year' => $this->getCurrentYear(),
@@ -1227,10 +1231,10 @@ class FinanceController extends Controller
                 ])['username'];
                 $reason = $request->validate(['reason' => 'required|string|max:255|regex:/^[^<>#;*]+$/u'])['reason'];
                 $year = $this->getCurrentYear();
-                $get_amount = DB::table('payments_extra_fees')->where('student_code',$request->username)->where('year',$year)->pluck('amount')->toArray()[0];
-                if($request->amount != $get_amount){
-                    return redirect()->back()->with('error', 'هذا الطالب لدية محفظة بقيمة' . $get_amount)->withInput();
-                }
+                // $get_amount = DB::table('payments_extra_fees')->where('student_code',$request->username)->where('year',$year)->pluck('amount')->toArray()[0];
+                // if($request->amount != $get_amount){
+                //     return redirect()->back()->with('error', 'هذا الطالب لدية محفظة بقيمة' . $get_amount)->withInput();
+                // }
                 $data = [
                     'student_code' => $student_code,
                     'year' => $this->getCurrentYear(),
@@ -1308,13 +1312,14 @@ class FinanceController extends Controller
                         if (in_array($discounts[$i][1], ['دراسية', 'دراسيه']) and
                             $value > $pay)
                             $fail('يجب ان يكون الخصم اصغر من او يساوى ' . $pay . ' فى السطر ' . ($i + 1));
-                             $get_amount = DB::table('payments_administrative_expenses')->where('student_code',$discounts[$i][0])->where('year',$year)->pluck('amount')->toArray()[0];
-                             $get_amount_fees = DB::table('payments_extra_fees')->where('student_code',$discounts[$i][0])->where('year',$year)->pluck('amount')->toArray()[0];
-                            if ($value != $get_amount && ($discounts[$i][1] == 'ادارية' || $discounts[$i][1] == 'اداريه')) {
-                                $fail( 'هذا الطالب ' . $discounts[$i][0] . ' لديه محفظة بقيمة ' . $get_amount);
-                            }elseif($value != $get_amount_fees && ($discounts[$i][1] == 'خدمات تعليمية' || $discounts[$i][1] == 'خدمات تعليميه')){
+                            // $get_amount = DB::table('payments_administrative_expenses')->where('student_code',$discounts[$i][0])->where('year',$year)->pluck('amount')->toArray()[0];
+                            //  $get_amount_fees = DB::table('payments_extra_fees')->where('student_code',$discounts[$i][0])->where('year',$year)->pluck('amount')->toArray()[0];
+                            // if ($value != $get_amount && ($discounts[$i][1] == 'ادارية' || $discounts[$i][1] == 'اداريه')) {
+                            //     $fail( 'هذا الطالب ' . $discounts[$i][0] . ' لديه محفظة بقيمة ' . $get_amount);
+                            // }
+                            // elseif($value != $get_amount_fees && ($discounts[$i][1] == 'خدمات تعليمية' || $discounts[$i][1] == 'خدمات تعليميه')){
 
-                            }
+                            // }
                     }],
                 'discounts.*.3' => 'required|string|max:255|regex:/^[^<>#;*]+$/u',
             ]);

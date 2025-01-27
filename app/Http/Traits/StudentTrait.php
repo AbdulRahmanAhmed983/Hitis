@@ -157,43 +157,22 @@ trait StudentTrait
                 ->where('student_code', $student_code)->where('grade', 'F')
                 ->select('courses.*', 'grade'))->get();
         /**Succeeded in Courses**/
-        // $courses_s = DB::table('courses')->where('type', $type)->where('departments_id', $department)
-        //     ->join('registration', 'courses.full_code', '=', 'registration.course_code')
-        //     ->where('student_code', $student_code)->whereNotIn('grade', ['P', 'F'])
-        //     ->orderBy('registration.year')
-        //     ->orderByDesc('registration.semester')
-        //     ->select('courses.*', 'grade', 'registration.year as registration_year',
-        //         'registration.semester as registration_semester');
+        $courses_s = DB::table('courses')->where('type', $type)->where('departments_id', $department)
+            ->join('registration', 'courses.full_code', '=', 'registration.course_code')
+            ->where('student_code', $student_code)->whereNotIn('grade', ['P', 'F'])
+            ->orderBy('registration.year')
+            ->orderByDesc('registration.semester')
+            ->select('courses.*', 'grade', 'registration.year as registration_year',
+                'registration.semester as registration_semester');
 
-        // $courses_s = $courses_s->union(
-        //     DB::table('courses')->where('type', $type)->where('departments_id', $department)
-        //         ->join('transferred_students_courses', 'courses.full_code', '=',
-        //             'transferred_students_courses.course_code')
-        //         ->where('student_code', $student_code)->where('grade', '!=', 'F')
-        //         ->selectRaw('courses.* ,grade ,"مواد معادلة من الخارج" as registration_year,
-        //          "" as registration_semester'))->orderBy('semester')->get();
-        $maxRegistrationIds = DB::table('registration')
-        ->select(DB::raw('MAX(id) as max_id'))
-        ->where('student_code', $student_code)
-        ->whereNotIn('grade', ['P','F'])
-        ->groupBy('course_code');
+        $courses_s = $courses_s->union(
+            DB::table('courses')->where('type', $type)->where('departments_id', $department)
+                ->join('transferred_students_courses', 'courses.full_code', '=',
+                    'transferred_students_courses.course_code')
+                ->where('student_code', $student_code)->where('grade', '!=', 'F')
+                ->selectRaw('courses.* ,grade ,"مواد معادلة من الخارج" as registration_year,
+                 "" as registration_semester'))->orderBy('semester')->get();
 
-    $courses_s = DB::table('courses')
-        ->join('registration', 'courses.full_code', '=', 'registration.course_code')
-        ->joinSub($maxRegistrationIds, 'max_registration', function ($join) {
-            $join->on('registration.id', '=', 'max_registration.max_id');
-        })
-        ->where('type', $type)
-        ->select('courses.*', 'grade', 'registration.year as registration_year', 'registration.id as registration_id', 'registration.semester as registration_semester')
-        ->orderBy('registration.id', 'desc');
-
-    $courses_s = $courses_s->union(
-        DB::table('courses')
-            ->where('type', $type)
-            ->join('transferred_students_courses', 'courses.full_code', '=', 'transferred_students_courses.course_code')
-            ->where('student_code', $student_code)
-            ->where('grade', '!=', 'F')
-            ->selectRaw('courses.*, grade, "مواد معادلة من الخارج" as registration_year, "" as registration_semester, "" as registration_id'))->get();
         foreach ($courses_f as $key => $value) {
             if ($courses_s->contains('full_code', $value->full_code)) {
                 $courses_f->forget($key);
@@ -959,6 +938,23 @@ trait StudentTrait
         return DB::table('seating_numbers')->where(compact('student_code', 'seating_number',
             'year'))->exists();
     }
+    public function checkStatusGraduated($username, $study_group)
+    {
+        $count_cgpa = DB::table('students_semesters')->where('student_code', $username)
+            ->where('CGPA', '<', 3)->count();
+
+        $count_semester = DB::table('students_semesters')->where('student_code', $username)
+            ->count();
+
+
+        if ($count_cgpa == 0 and $study_group == 'الرابعة' and $count_semester >= 7) {
+
+            DB::table('students')
+                ->where('username', $username)
+                ->update(['status_graduated' => 'خريج مع مرتبه الشرف']);
+        }
+    }
+
 
 
 }

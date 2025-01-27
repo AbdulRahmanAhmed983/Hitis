@@ -35,7 +35,6 @@ class StudentChecks
                     return $getDetailsFeesActive->name_fees . " ". $getDetailsFeesActive->amount;
         },$getDetailsFeesActive);
         $check_payFees  = $this->checkPayFees(auth()->id());
-        dd($this->getFeesNotPid(auth()->id()));
 
         foreach ($getDetailsFeesActive as $get_details_fee){
             $check_active_fees = $get_details_fee->active;
